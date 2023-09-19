@@ -3,9 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style/style.css">
+    <link rel="shortcut icon" href="assets/favicon.ico" type="image/x-icon">
     <title>Instant-Weather</title>
+    <script src="script/app.js" defer="true"></script>
 </head>
 <body>
-    
+    <div id="container">
+        <div class="search-bar">
+            <input type="text" id="search" placeholder="Search for a city">
+            <button id="search-btn">Search</button>
+        </div>
+        <div class="content">
+            <h1 id="city-name">Rennes</h1>
+            <div class="meteo-infos">
+                <img src="https://picsum.photos/200" alt="">
+                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Impedit dignissimos, ipsa cupiditate veniam minus totam nostrum fugiat veritatis, itaque sit necessitatibus commodi porro harum possimus distinctio nisi nobis consectetur sint aut ea at laboriosam quos explicabo architecto. Nisi, porro autem!</p>
+            </div>
+        </div>
+    </div>
 </body>
 </html>
