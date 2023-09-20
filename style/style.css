@@ -71,7 +71,14 @@ body {
     backdrop-filter: blur(10px);
     cursor: pointer;
     height: 40px;
-    width: 75px;
+    width: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.search-bar button img {
+    width: 25px;
 }
 
 .search-bar button:hover {
@@ -88,9 +95,21 @@ div.cityGuesses {
     box-shadow: black 0 0 5px;
 }
 
+@keyframes appear {
+    0% {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
 div.cityGuess {
     padding: 0.5rem;
     cursor: pointer;
+    animation: appear 0.25s ease-in-out;
 }
 
 div.cityGuess:last-child {
