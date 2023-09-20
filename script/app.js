@@ -14,10 +14,28 @@ function search() {
         if (xhttpr.status === 200) {
             const response = JSON.parse(xhttpr.response);
             console.log(response);
+            displayCitiesGuesses(response);
         } else {
             console.log("The request failed!");
         }
     };
+}
+
+function displayCitiesGuesses(citiesGuesses) {
+    let cityGuessesDiv = document.getElementById("cityGuesses");
+
+    let cityGuesses = document.getElementsByClassName("cityGuess");
+    while (cityGuesses[0]) {
+        cityGuesses[0].parentNode.removeChild(cityGuesses[0]);
+    }
+
+    for (let i = 0; i < citiesGuesses.length; i++) {
+        let city = citiesGuesses[i];
+        let cityDiv = document.createElement("div");
+        cityDiv.classList.add("cityGuess");
+        cityDiv.innerHTML = city.nom;
+        cityGuessesDiv.appendChild(cityDiv);
+    }
 }
 
 function onPageLoad() {
