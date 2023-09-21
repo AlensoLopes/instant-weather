@@ -8,6 +8,8 @@ let searchInput = document.getElementById("search"),
  */
 function searchInputChanged() {
     let cityName = searchInput.value;
+    console.log("City name : " + cityName);
+
     let apiURL =
         "https://geo.api.gouv.fr/communes?nom=" +
         cityName +
@@ -32,51 +34,15 @@ function searchInputChanged() {
             // console.log(response);
             if (response.length == 0 && cityName.length > 0) {
                 displayCitiesGuesses(response, true);
-            } else {
+            } else if (cityName.length > 0) {
                 displayCitiesGuesses(response);
+            } else {
+                displayCitiesGuesses("");
             }
         } else {
             alert("The request failed!");
         }
     };
-}
-
-/*
- * Search for the specific city in the API when the user clicks on the search button
- */
-function searchSubmit() {
-    // let cityName = searchInput.value;
-    // let apiURL =
-    //     "https://geo.api.gouv.fr/communes?nom=" +
-    //     cityName +
-    //     "&fields=nom,code,codesPostaux&boost=population&limit=5";
-    // // Check if the value is a postal code
-    // if (!isNaN(cityName)) {
-    //     apiURL =
-    //         "https://geo.api.gouv.fr/communes?codePostal=" +
-    //         cityName +
-    //         "&fields=nom,code,codesPostaux";
-    // }
-
-    // const xhttpr = new XMLHttpRequest();
-    // xhttpr.open("GET", apiURL, true);
-
-    // xhttpr.send();
-    // // console.log("Request sent : "+apiURL);
-
-    // xhttpr.onload = () => {
-    //     if (xhttpr.status === 200) {
-    //         const response = JSON.parse(xhttpr.response);
-    //         // console.log(response);
-    //         if (response.length == 1) {
-    //             cityChoiceMade(response[0]);
-    //         } else {
-    //             displayCitiesGuesses(response);
-    //         }
-    //     } else {
-    //         alert("The request failed!");
-    //     }
-    // };
 }
 
 /*
@@ -93,7 +59,7 @@ function displayCitiesGuesses(citiesGuesses, isNoCitiesFound) {
     if (isNoCitiesFound) {
         let cityDiv = document.createElement("div");
         cityDiv.classList.add("cityGuess");
-        cityDiv.innerHTML = "No cities found";
+        cityDiv.innerHTML = "No city found";
         cityGuessesDiv.appendChild(cityDiv);
     } else {
         for (let i = 0; i < citiesGuesses.length; i++) {
