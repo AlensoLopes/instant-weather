@@ -37,6 +37,8 @@ body {
 #search-container {
     background-color: rgb(246, 246, 246);
     border-radius: 8px;
+    position: absolute;
+    width: calc(100% - 3rem);
 }
 
 .search-bar {
@@ -86,14 +88,6 @@ body {
 }
 
 /* Search results */
-
-div.cityGuesses {
-    position: relative;
-    top: 0;
-    left: 0;
-    z-index: 10;
-    box-shadow: black 0 0 5px;
-}
 
 @keyframes appear {
     0% {
