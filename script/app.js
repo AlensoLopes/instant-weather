@@ -118,10 +118,9 @@ function meteoAPIRequest(city) {
     xhttpr.onload = () => {
         if (xhttpr.status === 200) {
             const meteoInfos = JSON.parse(xhttpr.response);
-            // console.log(response);
             displayMeteoInfos(meteoInfos);
         } else {
-            alert("The request failed!");
+            console.log("The request failed : " + apiURL);
         }
     };
 }
