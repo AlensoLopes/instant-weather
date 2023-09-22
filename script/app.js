@@ -128,9 +128,66 @@ function meteoAPIRequest(city) {
 /*
  * Display meteo infos in the HTML page
  */
-function displayMeteoInfos(meteoInfos) {
-    console.log(meteoInfos);
-    document.getElementById("city-name").textContent = meteoInfos.city.name;
+function displayMeteoInfos(response) {
+    console.log(response);
+    localStorage.setItem("response", JSON.stringify(response));
+    document.getElementById("city-name").textContent = response.city.name;
+
+    // Current weather
+    displayCurrentWeather(response);
+    // Hourly forecast
+    // displayHourlyForecast();
+    // n-days forecast
+    displayNDaysForecast(response);
+}
+
+/*
+ * Display the current weather
+ */
+function displayCurrentWeather(response) {
+    let date = new Date(response.forecast[0].datetime);
+    let weekday = returnWeekDay(date.getDay());
+
+    document.querySelector(".currentWeather h4").textContent =
+        weekday + " " + date.getDate();
+
+    document.querySelector(".currentWeather .tempMax").textContent =
+        response.forecast[0].tmax + "°";
+    document.querySelector(".currentWeather .tempMin").textContent =
+        response.forecast[0].tmin + "°";
+    document.querySelector(".currentWeather .probRain").textContent =
+        response.forecast[0].probarain + "%";
+    document.querySelector(".currentWeather .sunDuration").textContent =
+        response.forecast[0].sun_hours + "h";
+}
+
+/*
+ * Return the day of the week based on the day number
+ */
+function returnWeekDay(dayNb) {
+    switch (dayNb) {
+        case 0:
+            return "Sunday";
+        case 1:
+            return "Monday";
+        case 2:
+            return "Tuesday";
+        case 3:
+            return "Wednesday";
+        case 4:
+            return "Thursday";
+        case 5:
+            return "Friday";
+        default:
+            return "Saturday";
+    }
+}
+
+/*
+ * Display the forecast for the next days
+ */
+function displayNDaysForecast(response) {
+
 }
 
 /*
