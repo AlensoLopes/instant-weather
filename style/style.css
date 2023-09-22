@@ -14,7 +14,7 @@
 body {
     font-family: 'Inter', sans-serif;
     height: 100vh;
-    width: 100vw;
+    width: 100%;
     background-image: url("../assets/img/cities/default.jpg");
     background-position: center;
     background-size: cover;
@@ -214,6 +214,7 @@ h1#city-name {
 div.pack {
     display: flex;
     flex-direction: column;
+    margin-top: 1rem;
 }
 
 div.card {
@@ -223,7 +224,7 @@ div.card {
     padding: 0.5rem;
 }
 
-div.currentWeather div.card {
+div.currentWeather div.card div {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -232,11 +233,6 @@ div.currentWeather div.card {
 div.currentWeather img {
     max-width: 100px;
     width: 100%;
-}
-
-div.currentWeather table {
-    border-spacing: 1rem;
-    text-align: end;
 }
 
 div.hourly-forecast div.card {
@@ -249,6 +245,38 @@ div.hourly-forecast div.card {
 
 div.days-forecast {
     width: 100%;
-    margin-top: 1rem;
-    overflow-x: auto;
+}
+
+div.days-forecast div.card {
+    overflow-x: scroll;
+    overflow-y: hidden;
+    white-space: nowrap;
+}
+
+div.daily-card {
+    display: inline-block;
+    background-color: #efefef;
+    padding: 0.5rem;
+    border-radius: 5px;
+    text-align: center;
+    cursor: pointer;
+}
+
+div.daily-card:hover {
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 5px;
+    transform: translateY(-3px);
+}
+
+div.daily-card img {
+    width: 100px;
+}
+
+div.daily-card table, div.currentWeather table {
+    border-spacing: 0.5rem;
+    text-align: end;
+    white-space: nowrap;
+}
+
+div.currentWeather table {
+    border-spacing: 1rem;
 }
