@@ -262,6 +262,10 @@ div.daily-card {
     cursor: pointer;
 }
 
+div.daily-card:not(:last-child) {
+    margin-right: 0.5rem;
+}
+
 div.daily-card:hover {
     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 5px;
     transform: translateY(-3px);

@@ -187,7 +187,58 @@ function returnWeekDay(dayNb) {
  * Display the forecast for the next days
  */
 function displayNDaysForecast(response) {
+    for (
+        let i = 1;
+        i <= response.forecast.length && i <= settings.forecastDuration;
+        i++
+    ) {
+        let day = response.forecast[i],
+            date = new Date(day.datetime);
+        let weekday = returnWeekDay(date.getDay()).substring(0, 3) + ".";
 
+        let dayDiv = document.createElement("div");
+        dayDiv.classList.add("daily-card");
+
+        let dayTitle = document.createElement("h4");
+        dayTitle.classList.add("day-title");
+        dayTitle.textContent = weekday + " " + date.getDate();
+
+        let illustration = document.createElement("img");
+        illustration.src = "assets/img/weather_icons/day.svg";
+        illustration.alt = day.weather;
+
+        let table = document.createElement("table");
+        table.innerHTML = `<tr>
+          <td>
+          <span class="tempMax">${day.tmax}°</span>
+          <i
+              class="fa-solid fa-temperature-arrow-up"
+          ></i>
+        </td>
+        <td>
+          <span class="tempMin">${day.tmin}°</span>
+          <i
+              class="fa-solid fa-temperature-arrow-down"
+          ></i>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <span class="probRain">${day.probarain}%</span>
+          <i class="fa-solid fa-droplet"></i>
+        </td>
+        <td>
+          <span class="sunDuration">${day.sun_hours}h</span>
+          <i class="fa-solid fa-sun"></i>
+        </td>
+      </tr>`;
+
+        dayDiv.appendChild(dayTitle);
+        dayDiv.appendChild(illustration);
+        dayDiv.appendChild(table);
+
+        document.querySelector(".days-forecast .card").appendChild(dayDiv);
+    }
 }
 
 /*
@@ -211,6 +262,10 @@ function updateSearchSettings() {
     settings.windDirection = windDirectionInput.checked;
 
     localStorage.setItem("settings", JSON.stringify(settings));
+
+    document.querySelector(".days-forecast h3").textContent =
+        settings.forecastDuration +
+        (settings.forecastDuration > 1 ? " days forecast" : " day forecast");
 }
 
 function onPageLoad() {
@@ -237,6 +292,9 @@ function onPageLoad() {
     windDirectionInput.checked = settings.windDirection;
     document.getElementById("forecast-duration-label").textContent =
         "Forecast duration : " + forecastDurationInput.value + " days";
+    document.querySelector(".days-forecast h3").textContent =
+        settings.forecastDuration +
+        (settings.forecastDuration > 1 ? " days forecast" : " day forecast");
 }
 
 onPageLoad();
