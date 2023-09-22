@@ -59,7 +59,7 @@ function displayCitiesGuesses(citiesGuesses, isNoCitiesFound) {
   if (isNoCitiesFound) {
     let cityDiv = document.createElement("div");
     cityDiv.classList.add("cityGuess");
-    cityDiv.innerHTML = "No city found";
+    cityDiv.innerHTML = "No city found for : " + searchInput.value;
     cityGuessesDiv.appendChild(cityDiv);
   } else {
     for (let i = 0; i < citiesGuesses.length; i++) {
