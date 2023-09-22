@@ -97,9 +97,25 @@ function cityChoiceMade(city) {
  */
 function displayMeteoInfos(meteoInfos) { }
 
+/*
+ * Display search settings in the HTML page
+ */
+function displaySearchSettings() { 
+  document.getElementById("search-settings").classList.toggle("hidden");
+}
+
+/*
+ * Update search settings
+ */
+function updateSearchSettings() { 
+  console.log("Update search settings");
+  document.getElementById("search-settings").classList.toggle("hidden");
+}
+
+
 function onPageLoad() {
   searchInput.addEventListener("input", () => searchInputChanged());
-  searchButton.addEventListener("click", () => searchSubmit());
+  searchButton.addEventListener("click", () => displaySearchSettings());
 }
 
 onPageLoad();
