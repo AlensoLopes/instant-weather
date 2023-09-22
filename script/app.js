@@ -1,5 +1,10 @@
 let searchInput = document.getElementById("search"),
     searchButton = document.getElementById("search-btn"),
+    latitudeInput = document.getElementById("latitude"),
+    longitudeInput = document.getElementById("longitude"),
+    rainfallInput = document.getElementById("rainfall"),
+    averageWindInput = document.getElementById("average-wind"),
+    windDirectionInput = document.getElementById("wind-direction"),
     settings = {
         latitude: false,
         longitude: false,
@@ -115,24 +120,32 @@ function displaySearchSettings() {
 function updateSearchSettings() {
     document.getElementById("search-settings").classList.toggle("hidden");
 
-    let latitudeInput = document.getElementById("latitude"),
-        longitudeInput = document.getElementById("longitude"),
-        rainfallInput = document.getElementById("rainfall"),
-        averageWindInput = document.getElementById("average-wind"),
-        windDirectionInput = document.getElementById("wind-direction");
-
     settings.latitude = latitudeInput.checked;
     settings.longitude = longitudeInput.checked;
     settings.rainfall = rainfallInput.checked;
     settings.averageWind = averageWindInput.checked;
     settings.windDirection = windDirectionInput.checked;
 
-    console.log(settings);
+    localStorage.setItem("settings", JSON.stringify(settings));
 }
 
 function onPageLoad() {
+    // Adding event listeners
     searchInput.addEventListener("input", () => searchInputChanged());
     searchButton.addEventListener("click", () => displaySearchSettings());
+
+    // Handling search settings stored in local storage
+    if (localStorage.getItem("settings") === null) {
+        localStorage.setItem("settings", JSON.stringify(settings));
+    } else {
+        settings = JSON.parse(localStorage.getItem("settings"));
+    }
+
+    latitudeInput.checked = settings.latitude;
+    longitudeInput.checked = settings.longitude;
+    rainfallInput.checked = settings.rainfall;
+    averageWindInput.checked = settings.averageWind;
+    windDirectionInput.checked = settings.windDirection;
 }
 
 onPageLoad();
