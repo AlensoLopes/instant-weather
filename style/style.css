@@ -207,18 +207,48 @@ h1#city-name {
 .meteo-infos {
     display: flex;
     justify-content: space-between;
-    flex-wrap: nowrap;
     align-items: flex-start;
+    flex-wrap: wrap
 }
 
-.meteo-infos img {
-    width: 100px;
-    height: 100px;
+div.pack {
+    display: flex;
+    flex-direction: column;
+}
+
+div.card {
+    background-color: rgba(246, 246, 246, 0.7);
     border-radius: 8px;
-    margin-right: 1.5rem;
-    box-shadow: rgba(0, 0, 0, 0.288) 5px 5px 5px;
+    margin-top: 0.5rem;
+    padding: 0.5rem;
 }
 
-.meteo-infos p {
-    text-align: justify;
+div.currentWeather div.card {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+div.currentWeather img {
+    max-width: 100px;
+    width: 100%;
+}
+
+div.currentWeather table {
+    border-spacing: 1rem;
+    text-align: end;
+}
+
+div.hourly-forecast div.card {
+    background-image: url("../assets/img/hourly_forecast_placeholder.png");
+    background-position: center;
+    background-size: cover;
+    width: 400px;
+    height: 140px;
+}
+
+div.days-forecast {
+    width: 100%;
+    margin-top: 1rem;
+    overflow-x: auto;
 }
