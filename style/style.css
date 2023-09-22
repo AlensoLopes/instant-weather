@@ -2,10 +2,6 @@
 
 /* General styles */
 
-:root {
-
-}
-
 * {
     margin: 0;
     padding: 0;
@@ -38,8 +34,15 @@ body {
 
 /* Search bar style */
 
+#search-container {
+    background-color: rgb(246, 246, 246);
+    border-radius: 8px;
+    position: absolute;
+    width: calc(100% - 3rem);
+}
+
 .search-bar {
-    background-color: white;
+    background-color: #D9D9D9;
     display: flex;
     justify-content: space-between;
     flex-wrap: nowrap;
@@ -57,8 +60,7 @@ body {
     padding: 0 1rem;
     font-size: 1rem;
     font-weight: 500;
-    background-color: rgba(255, 255, 255, 0.45);
-    backdrop-filter: blur(10px);
+    background-color: #D9D9D9;
     color: black;
     flex: 1;
 }
@@ -71,11 +73,46 @@ body {
     backdrop-filter: blur(10px);
     cursor: pointer;
     height: 40px;
-    width: 75px;
+    width: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.search-bar button img {
+    width: 25px;
 }
 
 .search-bar button:hover {
     background-color: rgba(255, 255, 255, 0.24);
+}
+
+/* Search results */
+
+@keyframes appear {
+    0% {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+div.cityGuess {
+    padding: 0.5rem;
+    cursor: pointer;
+    animation: appear 0.25s ease-in-out;
+}
+
+div.cityGuess:last-child {
+    border-radius: 0 0 8px 8px;
+}
+
+div.cityGuess:hover {
+    background-color: #B4B3B3;
+    padding-left: 1rem;
 }
 
 /* City name style */
@@ -83,7 +120,7 @@ body {
 h1#city-name {
     font-size: 2rem;
     font-weight: 700;
-    margin: 2rem 0 1.5rem 0;
+    margin: 4rem 0 1.5rem 0;
     text-align: center;
 }
 
