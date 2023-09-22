@@ -14,6 +14,52 @@
     </head>
 
     <body>
+        <div class="hidden" id="search-settings">
+            <form action="javascript:updateSearchSettings()">
+                <h2>Search settings</h2>
+                <div class="setting">
+                    <label id="forecast-duration-label" for="forecast-duration">Forecast duration : </label>
+                    <input
+                        type="range"
+                        min="1"
+                        max="7"
+                        step="1"
+                        default="7"
+                        name="forecast-duration"
+                        id="forecast-duration"
+                    />
+                </div>
+                <div class="setting">
+                    <label for="latitude">Latitude of the municipality</label>
+                    <input type="checkbox" name="latitude" id="latitude" />
+                </div>
+                <div class="setting">
+                    <label for="longitude">Longitude of the municipality</label>
+                    <input type="checkbox" name="longitude" id="longitude" />
+                </div>
+                <div class="setting">
+                    <label for="rainfall">Total rainfall over the day</label>
+                    <input type="checkbox" name="rainfall" id="rainfall" />
+                </div>
+                <div class="setting">
+                    <label for="average-wind">Average wind</label>
+                    <input
+                        type="checkbox"
+                        name="average-wind"
+                        id="average-wind"
+                    />
+                </div>
+                <div class="setting">
+                    <label for="wind-direction">Wind direction</label>
+                    <input
+                        type="checkbox"
+                        name="wind-direction"
+                        id="wind-direction"
+                    />
+                </div>
+                <button type="submit">Save</button>
+            </form>
+        </div>
         <div id="container">
             <div id="search-container">
                 <div class="search-bar">
@@ -22,10 +68,16 @@
                         id="search"
                         placeholder="Search for a city"
                     />
-                    <button id="search-btn"><img src="assets/img/search-settings-icon.svg" alt="Search icon"></button>
+                    <button id="search-btn">
+                        <img
+                            src="assets/img/search-settings-icon.svg"
+                            alt="Search icon"
+                        />
+                    </button>
                 </div>
                 <div id="cityGuesses"></div>
             </div>
+
             <div class="content">
                 <h1 id="city-name">City name</h1>
                 <div class="meteo-infos">

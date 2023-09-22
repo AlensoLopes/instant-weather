@@ -119,6 +119,78 @@ div.cityGuess:hover {
     padding-left: 1rem;
 }
 
+/* Search settings */
+
+#search-settings {
+    display: flex;
+    justify-content: center;
+    flex-wrap: nowrap;
+    align-items: center;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.25);
+    backdrop-filter: blur(20px);
+    z-index: 3;
+    animation: settings-appearance 0.25s ease-in-out;
+}
+
+@keyframes settings-appearance {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+div#search-settings.hidden {
+    display: none;
+}
+
+#search-settings form {
+    background-color: rgb(246, 246, 246);
+    border-radius: 8px;
+    padding: 1rem;
+    max-width: 450px;
+    width: 90%;
+    max-height: 350px;
+    height: 90%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#search-settings div {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: nowrap;
+    align-items: center;
+    width: 100%;
+    font-size: 1rem;
+}
+
+.setting label {
+    margin-right: 1rem;
+}
+
+#search-settings button {
+    border-radius: 8px;
+    border: none;
+    background-color: #B4B3B3;
+    font-size: 1.25rem;
+    padding: 0.75rem;
+    cursor: pointer;
+}
+
+#search-settings button:hover {
+    background-color: #cccccc;
+    transform: translateY(3px);
+}
+
 /* City name style */
 
 h1#city-name {
