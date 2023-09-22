@@ -94,18 +94,40 @@ function cityChoiceMade(city) {
         cityGuesses[0].parentNode.removeChild(cityGuesses[0]);
     }
 
-    let cityName = city.nom,
-        codeINSEE = city.code,
-        postalCodes = city.codesPostaux;
+    meteoAPIRequest(city);
+}
 
-    document.getElementById("city-name").textContent =
-        cityName + " (" + postalCodes[0] + ")";
+/*
+ * Retrieve the weather data from the API
+ */
+function meteoAPIRequest(city) {
+    let apiURL =
+    "https://api.meteo-concept.com/api/forecast/daily?token="+WeatherApiToken+"&insee="+city.code;
+
+    const xhttpr = new XMLHttpRequest();
+    xhttpr.open("GET", apiURL, true);
+
+    xhttpr.send();
+    // console.log("Request sent : "+apiURL);
+
+    xhttpr.onload = () => {
+        if (xhttpr.status === 200) {
+            const meteoInfos = JSON.parse(xhttpr.response);
+            // console.log(response);
+            displayMeteoInfos(meteoInfos);
+        } else {
+            alert("The request failed!");
+        }
+    };
 }
 
 /*
  * Display meteo infos in the HTML page
  */
-function displayMeteoInfos(meteoInfos) {}
+function displayMeteoInfos(meteoInfos) {
+  console.log(meteoInfos);
+  document.getElementById("city-name").textContent = meteoInfos.city.name;
+}
 
 /*
  * Display search settings in the HTML page
