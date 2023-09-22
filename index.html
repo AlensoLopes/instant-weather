@@ -18,12 +18,24 @@
             <form action="javascript:updateSearchSettings()">
                 <h2>Search settings</h2>
                 <div class="setting">
+                    <label id="forecast-duration-label" for="forecast-duration">Forecast duration : </label>
+                    <input
+                        type="range"
+                        min="1"
+                        max="7"
+                        step="1"
+                        default="7"
+                        name="forecast-duration"
+                        id="forecast-duration"
+                    />
+                </div>
+                <div class="setting">
                     <label for="latitude">Latitude of the municipality</label>
                     <input type="checkbox" name="latitude" id="latitude" />
                 </div>
                 <div class="setting">
                     <label for="longitude">Longitude of the municipality</label>
-                    <input type="checkbox" name="longitude" id="longitude"/>
+                    <input type="checkbox" name="longitude" id="longitude" />
                 </div>
                 <div class="setting">
                     <label for="rainfall">Total rainfall over the day</label>

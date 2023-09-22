@@ -1,11 +1,13 @@
 let searchInput = document.getElementById("search"),
     searchButton = document.getElementById("search-btn"),
+    forecastDurationInput = document.getElementById("forecast-duration"),
     latitudeInput = document.getElementById("latitude"),
     longitudeInput = document.getElementById("longitude"),
     rainfallInput = document.getElementById("rainfall"),
     averageWindInput = document.getElementById("average-wind"),
     windDirectionInput = document.getElementById("wind-direction"),
     settings = {
+        forecastDuration: 7,
         latitude: false,
         longitude: false,
         rainfall: false,
@@ -102,7 +104,10 @@ function cityChoiceMade(city) {
  */
 function meteoAPIRequest(city) {
     let apiURL =
-    "https://api.meteo-concept.com/api/forecast/daily?token="+WeatherApiToken+"&insee="+city.code;
+        "https://api.meteo-concept.com/api/forecast/daily?token=" +
+        WeatherApiToken +
+        "&insee=" +
+        city.code;
 
     const xhttpr = new XMLHttpRequest();
     xhttpr.open("GET", apiURL, true);
@@ -125,8 +130,8 @@ function meteoAPIRequest(city) {
  * Display meteo infos in the HTML page
  */
 function displayMeteoInfos(meteoInfos) {
-  console.log(meteoInfos);
-  document.getElementById("city-name").textContent = meteoInfos.city.name;
+    console.log(meteoInfos);
+    document.getElementById("city-name").textContent = meteoInfos.city.name;
 }
 
 /*
@@ -142,6 +147,7 @@ function displaySearchSettings() {
 function updateSearchSettings() {
     document.getElementById("search-settings").classList.toggle("hidden");
 
+    settings.forecastDuration = forecastDurationInput.value;
     settings.latitude = latitudeInput.checked;
     settings.longitude = longitudeInput.checked;
     settings.rainfall = rainfallInput.checked;
@@ -155,6 +161,10 @@ function onPageLoad() {
     // Adding event listeners
     searchInput.addEventListener("input", () => searchInputChanged());
     searchButton.addEventListener("click", () => displaySearchSettings());
+    forecastDurationInput.addEventListener("input", () => {
+        document.getElementById("forecast-duration-label").textContent =
+            "Forecast duration : " + forecastDurationInput.value + " days";
+    });
 
     // Handling search settings stored in local storage
     if (localStorage.getItem("settings") === null) {
@@ -163,11 +173,14 @@ function onPageLoad() {
         settings = JSON.parse(localStorage.getItem("settings"));
     }
 
+    forecastDurationInput.value = settings.forecastDuration;
     latitudeInput.checked = settings.latitude;
     longitudeInput.checked = settings.longitude;
     rainfallInput.checked = settings.rainfall;
     averageWindInput.checked = settings.averageWind;
     windDirectionInput.checked = settings.windDirection;
+    document.getElementById("forecast-duration-label").textContent =
+        "Forecast duration : " + forecastDurationInput.value + " days";
 }
 
 onPageLoad();
