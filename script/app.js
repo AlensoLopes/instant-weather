@@ -200,11 +200,14 @@ function returnWeekDay(dayNb) {
  * Display the forecast for the next days
  */
 function displayNDaysForecast(response) {
-    for (
-        let i = 1;
-        i <= response.forecast.length && i <= settings.forecastDuration;
-        i++
-    ) {
+    // Remove previous forecast
+    let daysForecast = document.querySelectorAll(".days-forecast .daily-card");
+    for (let i = 0; i < daysForecast.length; i++) {
+        daysForecast[i].remove();
+    }
+
+    let i = 1;
+    while (i <= response.forecast.length && i <= settings.forecastDuration) {
         let day = response.forecast[i],
             date = new Date(day.datetime);
         let weekday = returnWeekDay(date.getDay()).substring(0, 3) + ".";
@@ -251,6 +254,8 @@ function displayNDaysForecast(response) {
         dayDiv.appendChild(table);
 
         document.querySelector(".days-forecast .card").appendChild(dayDiv);
+
+        i++;
     }
 }
 
