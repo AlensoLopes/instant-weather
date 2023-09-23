@@ -54,7 +54,7 @@ function searchInputChanged() {
                 displayCitiesGuesses("");
             }
         } else {
-            alert("The request failed!");
+            console.error("The request failed : " + apiURL + " " + xhttpr.status);
         }
     };
 }
@@ -97,6 +97,7 @@ function cityChoiceMade(city) {
         cityGuesses[0].parentNode.removeChild(cityGuesses[0]);
     }
 
+    document.querySelector(".content").classList.remove("content-active");
     document.querySelector("img.loading-icon").classList.replace("loading-icon", "loading-icon-active");
     meteoAPIRequest(city);
 }
@@ -124,8 +125,11 @@ function meteoAPIRequest(city) {
         } else if (xhttpr.status === 400) {
             alert("Unfortunately, the meteo is not available for this city.");
             displayMessage("City's meteo unavailable", "We're sorry but the meteo is not available for this city.");
+            document.querySelector(".content").classList.remove("content-active");
+            document.querySelector("img.loading-icon-active").classList.replace("loading-icon-active", "loading-icon");
+            searchInput.value = "";
         } else {
-            console.log("The request failed : " + apiURL);
+            console.error("The request failed : " + apiURL + " " + xhttpr.status);
         }
     };
 }
@@ -147,6 +151,8 @@ function displayMeteoInfos(response) {
     localStorage.setItem("response", JSON.stringify(response));
     document.getElementById("city-name").textContent = response.city.name;
 
+    document.querySelector(".loading-icon-active").classList.replace("loading-icon-active", "loading-icon");
+
     // Current weather
     displayCurrentWeather(response);
     // Hourly forecast
@@ -154,8 +160,7 @@ function displayMeteoInfos(response) {
     // n-days forecast
     displayNDaysForecast(response);
 
-    document.querySelector(".loading-icon-active").classList.replace("loading-icon-active", "loading-icon");
-    document.querySelector(".content").style.display = "block";
+    document.querySelector(".content").classList.add("content-active");
 }
 
 /*

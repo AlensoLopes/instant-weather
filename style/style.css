@@ -150,7 +150,7 @@ div.cityGuess:hover {
     }
 }
 
-div#search-settings.hidden/*, div.content.hidden*/ {
+div#search-settings.hidden {
     display: none;
 }
 
@@ -205,6 +205,18 @@ h1#city-name {
 }
 
 /* Content style */
+
+.content {
+    max-height: 0;
+    transition: max-height 0.3s ease-out;
+    overflow: hidden;
+}
+
+div.content-active {
+    max-height: 2000px;
+    transition: max-height 1s ease-out;
+    animation: appear 0.25s ease-in-out;
+}
 
 .meteo-infos {
     display: flex;
