@@ -17,6 +17,7 @@ let searchInput = document.getElementById("search"),
     WeatherApiToken =
         "6051ed4396ddb33dd0a53913aa5479b93328e2784fab430693ed7cbe340d9557";
 
+
 /*
  * Search for a cities in the API when the user types in the search bar
  */
@@ -79,7 +80,7 @@ function displayCitiesGuesses(citiesGuesses, isNoCitiesFound) {
             let city = citiesGuesses[i];
             let cityDiv = document.createElement("div");
             cityDiv.classList.add("cityGuess");
-            cityDiv.innerHTML = city.nom;
+            cityDiv.innerHTML = city.nom + " (" + city.codesPostaux[0] + ")";
             cityDiv.addEventListener("click", () => cityChoiceMade(city));
             cityGuessesDiv.appendChild(cityDiv);
         }
@@ -119,10 +120,22 @@ function meteoAPIRequest(city) {
         if (xhttpr.status === 200) {
             const meteoInfos = JSON.parse(xhttpr.response);
             displayMeteoInfos(meteoInfos);
+        } else if (xhttpr.status === 400) {
+            alert("Unfortunately, the meteo is not available for this city.");
+            displayMessage("City's meteo unavailable", "We're sorry but the meteo is not available for this city.");
         } else {
             console.log("The request failed : " + apiURL);
         }
     };
+}
+
+/*
+ * Display a message in the HTML page
+ */
+function displayMessage(title, body) {
+    document.querySelector(".message h3").textContent = title;
+    document.querySelector(".message p").textContent = body;
+    document.getElementById("infoMessageContainer").classList.remove("hidden");
 }
 
 /*
@@ -276,6 +289,9 @@ function onPageLoad() {
         document.getElementById("forecast-duration-label").textContent =
             "Forecast duration : " + forecastDurationInput.value + " days";
     });
+    document.querySelector(".message button").addEventListener("click", () => {
+        document.getElementById("infoMessageContainer").classList.add("hidden");
+    });
 
     // Handling search settings stored in local storage
     if (localStorage.getItem("settings") === null) {
@@ -295,6 +311,7 @@ function onPageLoad() {
     document.querySelector(".days-forecast h3").textContent =
         settings.forecastDuration +
         (settings.forecastDuration > 1 ? " days forecast" : " day forecast");
+
 }
 
 onPageLoad();
