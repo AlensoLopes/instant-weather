@@ -97,6 +97,7 @@ function cityChoiceMade(city) {
         cityGuesses[0].parentNode.removeChild(cityGuesses[0]);
     }
 
+    document.querySelector("img.loading-icon").classList.replace("loading-icon", "loading-icon-active");
     meteoAPIRequest(city);
 }
 
@@ -119,7 +120,7 @@ function meteoAPIRequest(city) {
     xhttpr.onload = () => {
         if (xhttpr.status === 200) {
             const meteoInfos = JSON.parse(xhttpr.response);
-            displayMeteoInfos(meteoInfos);
+            setTimeout(() => displayMeteoInfos(meteoInfos), Math.random() * 1000 + 500);
         } else if (xhttpr.status === 400) {
             alert("Unfortunately, the meteo is not available for this city.");
             displayMessage("City's meteo unavailable", "We're sorry but the meteo is not available for this city.");
@@ -152,6 +153,9 @@ function displayMeteoInfos(response) {
     // displayHourlyForecast();
     // n-days forecast
     displayNDaysForecast(response);
+
+    document.querySelector(".loading-icon-active").classList.replace("loading-icon-active", "loading-icon");
+    document.querySelector(".content").style.display = "block";
 }
 
 /*

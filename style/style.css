@@ -21,12 +21,14 @@ body {
     background-repeat: no-repeat;
     background-attachment: fixed;
     display: flex;
+    padding: 2rem;
 }
 
 /* Container styles */
 
 #container {
     width: 80%;
+    min-height: 90px;
     margin: auto;
     padding: 1.5rem;
     background-color: rgba(255, 255, 255, 0.3);
@@ -328,4 +330,20 @@ div.message button {
 div.message button:hover {
     background-color: #cccccc;
     transform: translateY(3px);
+}
+
+/* Loading animation */
+
+div.loading-icon {
+    text-align: center;
+}
+
+img.loading-icon {
+    height: 0;
+}
+
+img.loading-icon-active {
+    width: 50px;
+    height: 50px;
+    margin-top: 4rem;
 }

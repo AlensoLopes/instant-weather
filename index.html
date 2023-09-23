@@ -79,7 +79,7 @@
                     <input
                         type="text"
                         id="search"
-                        placeholder="Search for a city"
+                        placeholder="Search for a city name or a postal code"
                     />
                     <button id="search-btn">
                         <img
@@ -91,7 +91,11 @@
                 <div id="cityGuesses"></div>
             </div>
 
-            <div class="content hidden">
+            <div class="loading-icon">
+               <img src="assets/img/loading-icon.svg" alt="Loading icon" class="loading-icon">
+            </div>
+            
+            <div class="content" style="display: none;">
                 <h1 id="city-name">City name</h1>
                 <div class="meteo-infos">
                     <div class="pack currentWeather">
