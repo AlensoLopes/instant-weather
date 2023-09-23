@@ -17,7 +17,6 @@ let searchInput = document.getElementById("search"),
     WeatherApiToken =
         "6051ed4396ddb33dd0a53913aa5479b93328e2784fab430693ed7cbe340d9557";
 
-
 /*
  * Search for a cities in the API when the user types in the search bar
  */
@@ -54,7 +53,9 @@ function searchInputChanged() {
                 displayCitiesGuesses("");
             }
         } else {
-            console.error("The request failed : " + apiURL + " " + xhttpr.status);
+            console.error(
+                "The request failed : " + apiURL + " " + xhttpr.status
+            );
         }
     };
 }
@@ -98,7 +99,9 @@ function cityChoiceMade(city) {
     }
 
     document.querySelector(".content").classList.remove("content-active");
-    document.querySelector("img.loading-icon").classList.replace("loading-icon", "loading-icon-active");
+    document
+        .querySelector("img.loading-icon")
+        .classList.replace("loading-icon", "loading-icon-active");
     meteoAPIRequest(city);
 }
 
@@ -121,15 +124,27 @@ function meteoAPIRequest(city) {
     xhttpr.onload = () => {
         if (xhttpr.status === 200) {
             const meteoInfos = JSON.parse(xhttpr.response);
-            setTimeout(() => displayMeteoInfos(meteoInfos), Math.random() * 1000 + 500);
+            setTimeout(
+                () => displayMeteoInfos(meteoInfos),
+                Math.random() * 1000 + 500
+            );
         } else if (xhttpr.status === 400) {
             alert("Unfortunately, the meteo is not available for this city.");
-            displayMessage("City's meteo unavailable", "We're sorry but the meteo is not available for this city.");
-            document.querySelector(".content").classList.remove("content-active");
-            document.querySelector("img.loading-icon-active").classList.replace("loading-icon-active", "loading-icon");
+            displayMessage(
+                "City's meteo unavailable",
+                "We're sorry but the meteo is not available for this city."
+            );
+            document
+                .querySelector(".content")
+                .classList.remove("content-active");
+            document
+                .querySelector("img.loading-icon-active")
+                .classList.replace("loading-icon-active", "loading-icon");
             searchInput.value = "";
         } else {
-            console.error("The request failed : " + apiURL + " " + xhttpr.status);
+            console.error(
+                "The request failed : " + apiURL + " " + xhttpr.status
+            );
         }
     };
 }
@@ -151,7 +166,9 @@ function displayMeteoInfos(response) {
     localStorage.setItem("response", JSON.stringify(response));
     document.getElementById("city-name").textContent = response.city.name;
 
-    document.querySelector(".loading-icon-active").classList.replace("loading-icon-active", "loading-icon");
+    document
+        .querySelector(".loading-icon-active")
+        .classList.replace("loading-icon-active", "loading-icon");
 
     // Current weather
     displayCurrentWeather(response);
@@ -298,6 +315,17 @@ function updateSearchSettings() {
 function onPageLoad() {
     // Adding event listeners
     searchInput.addEventListener("input", () => searchInputChanged());
+    searchInput.addEventListener("focus", () => searchInputChanged());
+    window.addEventListener("click", function (mouseEvent) {
+        if (
+            !document.getElementById("cityGuesses").contains(mouseEvent.target)
+        ) {
+            let cityGuesses = document.getElementsByClassName("cityGuess");
+            while (cityGuesses[0]) {
+                cityGuesses[0].parentNode.removeChild(cityGuesses[0]);
+            }
+        }
+    });
     searchButton.addEventListener("click", () => displaySearchSettings());
     forecastDurationInput.addEventListener("input", () => {
         document.getElementById("forecast-duration-label").textContent =
@@ -325,7 +353,6 @@ function onPageLoad() {
     document.querySelector(".days-forecast h3").textContent =
         settings.forecastDuration +
         (settings.forecastDuration > 1 ? " days forecast" : " day forecast");
-
 }
 
 onPageLoad();
