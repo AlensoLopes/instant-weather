@@ -17,6 +17,7 @@ let searchInput = document.getElementById("search"),
     WeatherApiToken =
         "6051ed4396ddb33dd0a53913aa5479b93328e2784fab430693ed7cbe340d9557";
 
+
 /*
  * Search for a cities in the API when the user types in the search bar
  */
@@ -79,7 +80,7 @@ function displayCitiesGuesses(citiesGuesses, isNoCitiesFound) {
             let city = citiesGuesses[i];
             let cityDiv = document.createElement("div");
             cityDiv.classList.add("cityGuess");
-            cityDiv.innerHTML = city.nom;
+            cityDiv.innerHTML = city.nom + " (" + city.codesPostaux[0] + ")";
             cityDiv.addEventListener("click", () => cityChoiceMade(city));
             cityGuessesDiv.appendChild(cityDiv);
         }
@@ -96,6 +97,7 @@ function cityChoiceMade(city) {
         cityGuesses[0].parentNode.removeChild(cityGuesses[0]);
     }
 
+    document.querySelector("img.loading-icon").classList.replace("loading-icon", "loading-icon-active");
     meteoAPIRequest(city);
 }
 
@@ -118,20 +120,147 @@ function meteoAPIRequest(city) {
     xhttpr.onload = () => {
         if (xhttpr.status === 200) {
             const meteoInfos = JSON.parse(xhttpr.response);
-            // console.log(response);
-            displayMeteoInfos(meteoInfos);
+            setTimeout(() => displayMeteoInfos(meteoInfos), Math.random() * 1000 + 500);
+        } else if (xhttpr.status === 400) {
+            alert("Unfortunately, the meteo is not available for this city.");
+            displayMessage("City's meteo unavailable", "We're sorry but the meteo is not available for this city.");
         } else {
-            alert("The request failed!");
+            console.log("The request failed : " + apiURL);
         }
     };
 }
 
 /*
+ * Display a message in the HTML page
+ */
+function displayMessage(title, body) {
+    document.querySelector(".message h3").textContent = title;
+    document.querySelector(".message p").textContent = body;
+    document.getElementById("infoMessageContainer").classList.remove("hidden");
+}
+
+/*
  * Display meteo infos in the HTML page
  */
-function displayMeteoInfos(meteoInfos) {
-    console.log(meteoInfos);
-    document.getElementById("city-name").textContent = meteoInfos.city.name;
+function displayMeteoInfos(response) {
+    console.log(response);
+    localStorage.setItem("response", JSON.stringify(response));
+    document.getElementById("city-name").textContent = response.city.name;
+
+    // Current weather
+    displayCurrentWeather(response);
+    // Hourly forecast
+    // displayHourlyForecast();
+    // n-days forecast
+    displayNDaysForecast(response);
+
+    document.querySelector(".loading-icon-active").classList.replace("loading-icon-active", "loading-icon");
+    document.querySelector(".content").style.display = "block";
+}
+
+/*
+ * Display the current weather
+ */
+function displayCurrentWeather(response) {
+    let date = new Date(response.forecast[0].datetime);
+    let weekday = returnWeekDay(date.getDay());
+
+    document.querySelector(".currentWeather h4").textContent =
+        weekday + " " + date.getDate();
+
+    document.querySelector(".currentWeather .tempMax").textContent =
+        response.forecast[0].tmax + "°";
+    document.querySelector(".currentWeather .tempMin").textContent =
+        response.forecast[0].tmin + "°";
+    document.querySelector(".currentWeather .probRain").textContent =
+        response.forecast[0].probarain + "%";
+    document.querySelector(".currentWeather .sunDuration").textContent =
+        response.forecast[0].sun_hours + "h";
+}
+
+/*
+ * Return the day of the week based on the day number
+ */
+function returnWeekDay(dayNb) {
+    switch (dayNb) {
+        case 0:
+            return "Sunday";
+        case 1:
+            return "Monday";
+        case 2:
+            return "Tuesday";
+        case 3:
+            return "Wednesday";
+        case 4:
+            return "Thursday";
+        case 5:
+            return "Friday";
+        default:
+            return "Saturday";
+    }
+}
+
+/*
+ * Display the forecast for the next days
+ */
+function displayNDaysForecast(response) {
+    // Remove previous forecast
+    let daysForecast = document.querySelectorAll(".days-forecast .daily-card");
+    for (let i = 0; i < daysForecast.length; i++) {
+        daysForecast[i].remove();
+    }
+
+    let i = 1;
+    while (i <= response.forecast.length && i <= settings.forecastDuration) {
+        let day = response.forecast[i],
+            date = new Date(day.datetime);
+        let weekday = returnWeekDay(date.getDay()).substring(0, 3) + ".";
+
+        let dayDiv = document.createElement("div");
+        dayDiv.classList.add("daily-card");
+
+        let dayTitle = document.createElement("h4");
+        dayTitle.classList.add("day-title");
+        dayTitle.textContent = weekday + " " + date.getDate();
+
+        let illustration = document.createElement("img");
+        illustration.src = "assets/img/weather_icons/day.svg";
+        illustration.alt = day.weather;
+
+        let table = document.createElement("table");
+        table.innerHTML = `<tr>
+          <td>
+          <span class="tempMax">${day.tmax}°</span>
+          <i
+              class="fa-solid fa-temperature-arrow-up"
+          ></i>
+        </td>
+        <td>
+          <span class="tempMin">${day.tmin}°</span>
+          <i
+              class="fa-solid fa-temperature-arrow-down"
+          ></i>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <span class="probRain">${day.probarain}%</span>
+          <i class="fa-solid fa-droplet"></i>
+        </td>
+        <td>
+          <span class="sunDuration">${day.sun_hours}h</span>
+          <i class="fa-solid fa-sun"></i>
+        </td>
+      </tr>`;
+
+        dayDiv.appendChild(dayTitle);
+        dayDiv.appendChild(illustration);
+        dayDiv.appendChild(table);
+
+        document.querySelector(".days-forecast .card").appendChild(dayDiv);
+
+        i++;
+    }
 }
 
 /*
@@ -155,6 +284,10 @@ function updateSearchSettings() {
     settings.windDirection = windDirectionInput.checked;
 
     localStorage.setItem("settings", JSON.stringify(settings));
+
+    document.querySelector(".days-forecast h3").textContent =
+        settings.forecastDuration +
+        (settings.forecastDuration > 1 ? " days forecast" : " day forecast");
 }
 
 function onPageLoad() {
@@ -164,6 +297,9 @@ function onPageLoad() {
     forecastDurationInput.addEventListener("input", () => {
         document.getElementById("forecast-duration-label").textContent =
             "Forecast duration : " + forecastDurationInput.value + " days";
+    });
+    document.querySelector(".message button").addEventListener("click", () => {
+        document.getElementById("infoMessageContainer").classList.add("hidden");
     });
 
     // Handling search settings stored in local storage
@@ -181,6 +317,10 @@ function onPageLoad() {
     windDirectionInput.checked = settings.windDirection;
     document.getElementById("forecast-duration-label").textContent =
         "Forecast duration : " + forecastDurationInput.value + " days";
+    document.querySelector(".days-forecast h3").textContent =
+        settings.forecastDuration +
+        (settings.forecastDuration > 1 ? " days forecast" : " day forecast");
+
 }
 
 onPageLoad();

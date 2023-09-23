@@ -1,5 +1,7 @@
 /* Fonts importation */
 
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap');
+
 /* General styles */
 
 * {
@@ -10,21 +12,23 @@
 }
 
 body {
-    font-family: 'Roboto', sans-serif;
+    font-family: 'Inter', sans-serif;
     height: 100vh;
-    width: 100vw;
+    width: 100%;
     background-image: url("../assets/img/cities/default.jpg");
     background-position: center;
     background-size: cover;
     background-repeat: no-repeat;
     background-attachment: fixed;
     display: flex;
+    padding: 2rem;
 }
 
 /* Container styles */
 
 #container {
     width: 80%;
+    min-height: 90px;
     margin: auto;
     padding: 1.5rem;
     background-color: rgba(255, 255, 255, 0.3);
@@ -121,16 +125,16 @@ div.cityGuess:hover {
 
 /* Search settings */
 
-#search-settings {
+#search-settings, #infoMessageContainer {
     display: flex;
     justify-content: center;
     flex-wrap: nowrap;
     align-items: center;
-    position: absolute;
+    position: fixed;
     top: 0;
     left: 0;
-    width: 100vw;
-    height: 100vh;
+    width: 100%;
+    height: 100%;
     background-color: rgba(0, 0, 0, 0.25);
     backdrop-filter: blur(20px);
     z-index: 3;
@@ -146,7 +150,7 @@ div.cityGuess:hover {
     }
 }
 
-div#search-settings.hidden {
+div#search-settings.hidden/*, div.content.hidden*/ {
     display: none;
 }
 
@@ -205,18 +209,141 @@ h1#city-name {
 .meteo-infos {
     display: flex;
     justify-content: space-between;
-    flex-wrap: nowrap;
     align-items: flex-start;
+    flex-wrap: wrap
 }
 
-.meteo-infos img {
-    width: 100px;
-    height: 100px;
+div.pack {
+    display: flex;
+    flex-direction: column;
+    margin-top: 1rem;
+}
+
+div.card {
+    background-color: rgba(246, 246, 246, 0.7);
     border-radius: 8px;
-    margin-right: 1.5rem;
-    box-shadow: rgba(0, 0, 0, 0.288) 5px 5px 5px;
+    margin-top: 0.5rem;
+    padding: 0.5rem;
 }
 
-.meteo-infos p {
+div.currentWeather div.card div {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+div.currentWeather img {
+    max-width: 100px;
+    width: 100%;
+}
+
+div.hourly-forecast div.card {
+    background-image: url("../assets/img/hourly_forecast_placeholder.png");
+    background-position: center;
+    background-size: cover;
+    width: 400px;
+    height: 140px;
+}
+
+div.days-forecast {
+    width: 100%;
+}
+
+div.days-forecast div.card {
+    overflow-x: scroll;
+    overflow-y: hidden;
+    white-space: nowrap;
+}
+
+div.daily-card {
+    display: inline-block;
+    background-color: #efefef;
+    padding: 0.5rem;
+    border-radius: 5px;
+    text-align: center;
+    cursor: pointer;
+}
+
+div.daily-card:not(:last-child) {
+    margin-right: 0.5rem;
+}
+
+div.daily-card:hover {
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 5px;
+    transform: translateY(-3px);
+}
+
+div.daily-card img {
+    width: 100px;
+}
+
+div.daily-card table, div.currentWeather table {
+    border-spacing: 0.5rem;
+    text-align: end;
+    white-space: nowrap;
+}
+
+div.currentWeather table {
+    border-spacing: 1rem;
+}
+
+/* Message display style */
+
+div#infoMessageContainer.hidden {
+    display: none;
+}
+
+div#infoMessageContainer div.message {
+    background-color: rgb(246, 246, 246);
+    border-radius: 8px;
+    padding: 1rem;
+    max-width: 450px;
+    width: 90%;
+}
+
+div.message {
+    text-align: center;
+}
+
+div.message *:not(:first-child) {
+    margin-top: 0.75rem;
+}
+
+div.message h3 {
+    text-align: left;
+}
+
+div.message p {
     text-align: justify;
+}
+
+div.message button {
+    border-radius: 8px;
+    border: none;
+    background-color: #B4B3B3;
+    font-size: 1rem;
+    padding: 0.5rem;
+    cursor: pointer;
+    margin: auto;
+}
+
+div.message button:hover {
+    background-color: #cccccc;
+    transform: translateY(3px);
+}
+
+/* Loading animation */
+
+div.loading-icon {
+    text-align: center;
+}
+
+img.loading-icon {
+    height: 0;
+}
+
+img.loading-icon-active {
+    width: 50px;
+    height: 50px;
+    margin-top: 4rem;
 }
