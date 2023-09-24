@@ -154,7 +154,7 @@ function meteoAPIRequest(city) {
  */
 function displayMessage(title, body) {
     document.querySelector(".message h3").textContent = title;
-    document.querySelector(".message p").textContent = body;
+    document.querySelector(".message p").innerHTML = body;
     document.getElementById("infoMessageContainer").classList.remove("hidden");
 }
 
@@ -198,6 +198,27 @@ function displayCurrentWeather(response) {
         response.forecast[0].probarain + "%";
     document.querySelector(".currentWeather .sunDuration").textContent =
         response.forecast[0].sun_hours + "h";
+
+    document.querySelector(".currentWeather .card").addEventListener("click", () => {
+        let bodyText = "";
+        if (settings.latitude) {
+            bodyText += "The latitude is " + response.city.latitude + ".<br>";
+        }
+        if (settings.longitude) {
+            bodyText += "The longitude is " + response.city.longitude + ".<br>";
+        }
+        if (settings.rainfall) {
+            bodyText += "The rainfall will be " + response.forecast[0].probarain + "%.<br>";
+        }
+        if (settings.averageWind) {
+            bodyText += "The average wind will be " + response.forecast[0].wind10m + "km/h.<br>";
+        }
+        if (settings.windDirection) {
+            bodyText += "The wind will blow from " + response.forecast[0].dirwind10m + "°.<br>";
+        }
+
+        bodyText.length > 0 ? displayMessage(weekday + " " + date.getDate() + " - Additional informations", bodyText) : null;
+    });
 }
 
 /*
@@ -278,6 +299,19 @@ function displayNDaysForecast(response) {
         dayDiv.appendChild(dayTitle);
         dayDiv.appendChild(illustration);
         dayDiv.appendChild(table);
+
+        let bodyText = "";
+        if (settings.rainfall) {
+            bodyText += "The rainfall will be " + day.probarain + "%.<br>";
+        }
+        if (settings.averageWind) {
+            bodyText += "The average wind will be " + day.wind10m + "km/h.<br>";
+        }
+        if (settings.windDirection) {
+            bodyText += "The wind will blow from " + day.dirwind10m + "°.<br>";
+        }
+
+        dayDiv.addEventListener("click", () => {bodyText.length > 0 ? displayMessage(dayTitle.textContent + " - Additional informations", bodyText) : null});
 
         document.querySelector(".days-forecast .card").appendChild(dayDiv);
 
