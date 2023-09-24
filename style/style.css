@@ -239,6 +239,10 @@ div.card {
     padding: 0.5rem;
 }
 
+div.currentWeather div.card {
+    cursor: pointer;
+}
+
 div.currentWeather div.card div {
     display: flex;
     justify-content: space-between;

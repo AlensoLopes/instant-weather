@@ -14,6 +14,7 @@ let searchInput = document.getElementById("search"),
         averageWind: false,
         windDirection: false,
     },
+    currentCity = null,
     WeatherApiToken =
         "6051ed4396ddb33dd0a53913aa5479b93328e2784fab430693ed7cbe340d9557";
 
@@ -82,7 +83,10 @@ function displayCitiesGuesses(citiesGuesses, isNoCitiesFound) {
             let cityDiv = document.createElement("div");
             cityDiv.classList.add("cityGuess");
             cityDiv.innerHTML = city.nom + " (" + city.codesPostaux[0] + ")";
-            cityDiv.addEventListener("click", () => cityChoiceMade(city));
+            cityDiv.addEventListener("click", () => {
+                currentCity = city;
+                cityChoiceMade(city);
+            });
             cityGuessesDiv.appendChild(cityDiv);
         }
     }
@@ -129,7 +133,6 @@ function meteoAPIRequest(city) {
                 Math.random() * 1000 + 500
             );
         } else if (xhttpr.status === 400) {
-            alert("Unfortunately, the meteo is not available for this city.");
             displayMessage(
                 "City's meteo unavailable",
                 "We're sorry but the meteo is not available for this city."
@@ -199,26 +202,47 @@ function displayCurrentWeather(response) {
     document.querySelector(".currentWeather .sunDuration").textContent =
         response.forecast[0].sun_hours + "h";
 
-    document.querySelector(".currentWeather .card").addEventListener("click", () => {
-        let bodyText = "";
-        if (settings.latitude) {
-            bodyText += "The latitude is " + response.city.latitude + ".<br>";
-        }
-        if (settings.longitude) {
-            bodyText += "The longitude is " + response.city.longitude + ".<br>";
-        }
-        if (settings.rainfall) {
-            bodyText += "The rainfall will be " + response.forecast[0].probarain + "%.<br>";
-        }
-        if (settings.averageWind) {
-            bodyText += "The average wind will be " + response.forecast[0].wind10m + "km/h.<br>";
-        }
-        if (settings.windDirection) {
-            bodyText += "The wind will blow from " + response.forecast[0].dirwind10m + "°.<br>";
-        }
+    document
+        .querySelector(".currentWeather .card")
+        .addEventListener("click", () => {
+            let bodyText = "";
+            if (settings.latitude) {
+                bodyText +=
+                    "The latitude is " + response.city.latitude + ".<br>";
+            }
+            if (settings.longitude) {
+                bodyText +=
+                    "The longitude is " + response.city.longitude + ".<br>";
+            }
+            if (settings.rainfall) {
+                bodyText +=
+                    "The rainfall will be " +
+                    response.forecast[0].probarain +
+                    "%.<br>";
+            }
+            if (settings.averageWind) {
+                bodyText +=
+                    "The average wind will be " +
+                    response.forecast[0].wind10m +
+                    "km/h.<br>";
+            }
+            if (settings.windDirection) {
+                bodyText +=
+                    "The wind will blow from " +
+                    response.forecast[0].dirwind10m +
+                    "°.<br>";
+            }
 
-        bodyText.length > 0 ? displayMessage(weekday + " " + date.getDate() + " - Additional informations", bodyText) : null;
-    });
+            bodyText.length > 0
+                ? displayMessage(
+                      weekday +
+                          " " +
+                          date.getDate() +
+                          " - Additional informations",
+                      bodyText
+                  )
+                : null;
+        });
 }
 
 /*
@@ -247,6 +271,10 @@ function returnWeekDay(dayNb) {
  * Display the forecast for the next days
  */
 function displayNDaysForecast(response) {
+    document.querySelector(".days-forecast h3").textContent =
+        settings.forecastDuration +
+        (settings.forecastDuration > 1 ? " days forecast" : " day forecast");
+
     // Remove previous forecast
     let daysForecast = document.querySelectorAll(".days-forecast .daily-card");
     for (let i = 0; i < daysForecast.length; i++) {
@@ -311,7 +339,14 @@ function displayNDaysForecast(response) {
             bodyText += "The wind will blow from " + day.dirwind10m + "°.<br>";
         }
 
-        dayDiv.addEventListener("click", () => {bodyText.length > 0 ? displayMessage(dayTitle.textContent + " - Additional informations", bodyText) : null});
+        dayDiv.addEventListener("click", () => {
+            bodyText.length > 0
+                ? displayMessage(
+                      dayTitle.textContent + " - Additional informations",
+                      bodyText
+                  )
+                : null;
+        });
 
         document.querySelector(".days-forecast .card").appendChild(dayDiv);
 
@@ -341,9 +376,9 @@ function updateSearchSettings() {
 
     localStorage.setItem("settings", JSON.stringify(settings));
 
-    document.querySelector(".days-forecast h3").textContent =
-        settings.forecastDuration +
-        (settings.forecastDuration > 1 ? " days forecast" : " day forecast");
+    if (currentCity != null) {
+        cityChoiceMade(currentCity);
+    }
 }
 
 function onPageLoad() {
