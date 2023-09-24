@@ -17,7 +17,6 @@ let searchInput = document.getElementById("search"),
     WeatherApiToken =
         "6051ed4396ddb33dd0a53913aa5479b93328e2784fab430693ed7cbe340d9557";
 
-
 /*
  * Search for a cities in the API when the user types in the search bar
  */
@@ -54,7 +53,9 @@ function searchInputChanged() {
                 displayCitiesGuesses("");
             }
         } else {
-            alert("The request failed!");
+            console.error(
+                "The request failed : " + apiURL + " " + xhttpr.status
+            );
         }
     };
 }
@@ -97,7 +98,10 @@ function cityChoiceMade(city) {
         cityGuesses[0].parentNode.removeChild(cityGuesses[0]);
     }
 
-    document.querySelector("img.loading-icon").classList.replace("loading-icon", "loading-icon-active");
+    document.querySelector(".content").classList.remove("content-active");
+    document
+        .querySelector("img.loading-icon")
+        .classList.replace("loading-icon", "loading-icon-active");
     meteoAPIRequest(city);
 }
 
@@ -120,12 +124,27 @@ function meteoAPIRequest(city) {
     xhttpr.onload = () => {
         if (xhttpr.status === 200) {
             const meteoInfos = JSON.parse(xhttpr.response);
-            setTimeout(() => displayMeteoInfos(meteoInfos), Math.random() * 1000 + 500);
+            setTimeout(
+                () => displayMeteoInfos(meteoInfos),
+                Math.random() * 1000 + 500
+            );
         } else if (xhttpr.status === 400) {
             alert("Unfortunately, the meteo is not available for this city.");
-            displayMessage("City's meteo unavailable", "We're sorry but the meteo is not available for this city.");
+            displayMessage(
+                "City's meteo unavailable",
+                "We're sorry but the meteo is not available for this city."
+            );
+            document
+                .querySelector(".content")
+                .classList.remove("content-active");
+            document
+                .querySelector("img.loading-icon-active")
+                .classList.replace("loading-icon-active", "loading-icon");
+            searchInput.value = "";
         } else {
-            console.log("The request failed : " + apiURL);
+            console.error(
+                "The request failed : " + apiURL + " " + xhttpr.status
+            );
         }
     };
 }
@@ -135,7 +154,7 @@ function meteoAPIRequest(city) {
  */
 function displayMessage(title, body) {
     document.querySelector(".message h3").textContent = title;
-    document.querySelector(".message p").textContent = body;
+    document.querySelector(".message p").innerHTML = body;
     document.getElementById("infoMessageContainer").classList.remove("hidden");
 }
 
@@ -147,6 +166,10 @@ function displayMeteoInfos(response) {
     localStorage.setItem("response", JSON.stringify(response));
     document.getElementById("city-name").textContent = response.city.name;
 
+    document
+        .querySelector(".loading-icon-active")
+        .classList.replace("loading-icon-active", "loading-icon");
+
     // Current weather
     displayCurrentWeather(response);
     // Hourly forecast
@@ -154,8 +177,7 @@ function displayMeteoInfos(response) {
     // n-days forecast
     displayNDaysForecast(response);
 
-    document.querySelector(".loading-icon-active").classList.replace("loading-icon-active", "loading-icon");
-    document.querySelector(".content").style.display = "block";
+    document.querySelector(".content").classList.add("content-active");
 }
 
 /*
@@ -176,6 +198,27 @@ function displayCurrentWeather(response) {
         response.forecast[0].probarain + "%";
     document.querySelector(".currentWeather .sunDuration").textContent =
         response.forecast[0].sun_hours + "h";
+
+    document.querySelector(".currentWeather .card").addEventListener("click", () => {
+        let bodyText = "";
+        if (settings.latitude) {
+            bodyText += "The latitude is " + response.city.latitude + ".<br>";
+        }
+        if (settings.longitude) {
+            bodyText += "The longitude is " + response.city.longitude + ".<br>";
+        }
+        if (settings.rainfall) {
+            bodyText += "The rainfall will be " + response.forecast[0].probarain + "%.<br>";
+        }
+        if (settings.averageWind) {
+            bodyText += "The average wind will be " + response.forecast[0].wind10m + "km/h.<br>";
+        }
+        if (settings.windDirection) {
+            bodyText += "The wind will blow from " + response.forecast[0].dirwind10m + "°.<br>";
+        }
+
+        bodyText.length > 0 ? displayMessage(weekday + " " + date.getDate() + " - Additional informations", bodyText) : null;
+    });
 }
 
 /*
@@ -211,7 +254,7 @@ function displayNDaysForecast(response) {
     }
 
     let i = 1;
-    while (i <= response.forecast.length && i <= settings.forecastDuration) {
+    while (i < response.forecast.length && i <= settings.forecastDuration) {
         let day = response.forecast[i],
             date = new Date(day.datetime);
         let weekday = returnWeekDay(date.getDay()).substring(0, 3) + ".";
@@ -257,6 +300,19 @@ function displayNDaysForecast(response) {
         dayDiv.appendChild(illustration);
         dayDiv.appendChild(table);
 
+        let bodyText = "";
+        if (settings.rainfall) {
+            bodyText += "The rainfall will be " + day.probarain + "%.<br>";
+        }
+        if (settings.averageWind) {
+            bodyText += "The average wind will be " + day.wind10m + "km/h.<br>";
+        }
+        if (settings.windDirection) {
+            bodyText += "The wind will blow from " + day.dirwind10m + "°.<br>";
+        }
+
+        dayDiv.addEventListener("click", () => {bodyText.length > 0 ? displayMessage(dayTitle.textContent + " - Additional informations", bodyText) : null});
+
         document.querySelector(".days-forecast .card").appendChild(dayDiv);
 
         i++;
@@ -293,6 +349,17 @@ function updateSearchSettings() {
 function onPageLoad() {
     // Adding event listeners
     searchInput.addEventListener("input", () => searchInputChanged());
+    searchInput.addEventListener("focus", () => searchInputChanged());
+    window.addEventListener("click", function (mouseEvent) {
+        if (
+            !document.getElementById("cityGuesses").contains(mouseEvent.target)
+        ) {
+            let cityGuesses = document.getElementsByClassName("cityGuess");
+            while (cityGuesses[0]) {
+                cityGuesses[0].parentNode.removeChild(cityGuesses[0]);
+            }
+        }
+    });
     searchButton.addEventListener("click", () => displaySearchSettings());
     forecastDurationInput.addEventListener("input", () => {
         document.getElementById("forecast-duration-label").textContent =
@@ -320,7 +387,6 @@ function onPageLoad() {
     document.querySelector(".days-forecast h3").textContent =
         settings.forecastDuration +
         (settings.forecastDuration > 1 ? " days forecast" : " day forecast");
-
 }
 
 onPageLoad();
