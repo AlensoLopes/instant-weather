@@ -22,9 +22,7 @@ let searchInput = document.getElementById("search"),
  * Search for a cities in the API when the user types in the search bar
  */
 
-
-
-function searchInputChanged() {
+function searchInputChanged(){
   let cityName = searchInput.value;
 
   let apiURL =
@@ -39,30 +37,23 @@ function searchInputChanged() {
       "&fields=nom,code,codesPostaux";
   }
 
-  const xhttpr = new XMLHttpRequest();
-  xhttpr.open("GET", apiURL, true);
-
-  xhttpr.send();
-  // console.log("Request sent : "+apiURL);
-
-  xhttpr.onload = () => {
-    if (xhttpr.status === 200) {
-      const response = JSON.parse(xhttpr.response);
-      // console.log(response);
-      if (response.length == 0 && cityName.length > 0) {
-        displayCitiesGuesses(response, true);
-      } else if (cityName.length > 0) {
-        displayCitiesGuesses(response);
-      } else {
-        displayCitiesGuesses("");
-      }
-    } else {
+    fetch(apiURL)
+    .then(res => response = res.json())
+    .then(data =>{
+      if (data.length == 0 && cityName.length > 0) {
+          displayCitiesGuesses(data, true);
+        } else if (cityName.length > 0) {
+          displayCitiesGuesses(data);
+        } else {
+          displayCitiesGuesses("");
+        }
+    })
+    .catch(error => {
       console.error(
-        "The request failed : " + apiURL + " " + xhttpr.status
-      );
-    }
-  };
+          "The request failed : " + apiURL + " " + error);
+    });
 }
+
 
 /*
  * Display the cities guesses in the HTML page
