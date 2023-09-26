@@ -22,7 +22,7 @@ let searchInput = document.getElementById("search"),
  * Search for a cities in the API when the user types in the search bar
  */
 
-function searchInputChanged(){
+function searchInputChanged() {
   let cityName = searchInput.value;
 
   let apiURL =
@@ -37,20 +37,20 @@ function searchInputChanged(){
       "&fields=nom,code,codesPostaux";
   }
 
-    fetch(apiURL)
+  fetch(apiURL)
     .then(res => response = res.json())
-    .then(data =>{
+    .then(data => {
       if (data.length == 0 && cityName.length > 0) {
-          displayCitiesGuesses(data, true);
-        } else if (cityName.length > 0) {
-          displayCitiesGuesses(data);
-        } else {
-          displayCitiesGuesses("");
-        }
+        displayCitiesGuesses(data, true);
+      } else if (cityName.length > 0) {
+        displayCitiesGuesses(data);
+      } else {
+        displayCitiesGuesses("");
+      }
     })
     .catch(error => {
       console.error(
-          "The request failed : " + apiURL + " " + error);
+        "The request failed : " + apiURL + " " + error);
     });
 }
 
@@ -106,6 +106,7 @@ function cityChoiceMade(city) {
 /*
  * Retrieve the weather data from the API
  */
+
 function meteoAPIRequest(city) {
   let apiURL =
     "https://api.meteo-concept.com/api/forecast/daily?token=" +
@@ -113,38 +114,39 @@ function meteoAPIRequest(city) {
     "&insee=" +
     city.code;
 
-  const xhttpr = new XMLHttpRequest();
-  xhttpr.open("GET", apiURL, true);
-
-  xhttpr.send();
-  // console.log("Request sent : "+apiURL);
-
-  xhttpr.onload = () => {
-    if (xhttpr.status === 200) {
-      const meteoInfos = JSON.parse(xhttpr.response);
-      setTimeout(
-        () => displayMeteoInfos(meteoInfos),
-        Math.random() * 1000 + 500
-      );
-    } else if (xhttpr.status === 400) {
-      displayMessage(
-        "City's meteo unavailable",
-        "We're sorry but the meteo is not available for this city."
-      );
-      document
-        .querySelector(".content")
-        .classList.remove("content-active");
-      document
-        .querySelector("img.loading-icon-active")
-        .classList.replace("loading-icon-active", "loading-icon");
-      searchInput.value = "";
-    } else {
-      console.error(
-        "The request failed : " + apiURL + " " + xhttpr.status
-      );
-    }
-  };
+  (city.code >= 97000 && city.code < 99000
+    ? noMeteo() :
+    fetch(apiURL)
+      .then(response => {
+        if (!response.ok) {
+          throw new Error();
+        } else
+          return response.json();
+      })
+      .then(response => {
+        setTimeout(
+          () => displayMeteoInfos(response),
+          Math.random() * 1000 + 500
+        );
+      })
+      .catch(() => {
+        noMeteo();
+      }));
 }
+
+function noMeteo() {
+  displayMessage("City's meteo unavailable",
+    "We're sorry but the meteo is not available for " +
+    "this city.");
+  document
+    .querySelector(".content")
+    .classList.remove("content-active");
+  document
+    .querySelector("img.loading-icon-active")
+    .classList.replace("loading-icon-active", "loading-icon");
+  searchInput.value = "";
+}
+
 
 /*
  * Display a message in the HTML page
