@@ -1,1 +1,1 @@
-# instant-weather
+# instant weather
