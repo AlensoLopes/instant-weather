@@ -11,6 +11,10 @@
         />
         <title>Instant-Weather</title>
         <script src="script/app.js" defer="true"></script>
+        <script
+            src="https://kit.fontawesome.com/796ab93bf0.js"
+            crossorigin="anonymous"
+        ></script>
     </head>
 
     <body>
@@ -18,7 +22,9 @@
             <form action="javascript:updateSearchSettings()">
                 <h2>Search settings</h2>
                 <div class="setting">
-                    <label id="forecast-duration-label" for="forecast-duration">Forecast duration : </label>
+                    <label id="forecast-duration-label" for="forecast-duration"
+                        >Forecast duration :
+                    </label>
                     <input
                         type="range"
                         min="1"
@@ -60,13 +66,20 @@
                 <button type="submit">Save</button>
             </form>
         </div>
+        <div class="hidden" id="infoMessageContainer">
+            <div class="message">
+                <h3></h3>
+                <p></p>
+                <button>OK</button>
+            </div>
+        </div>
         <div id="container">
             <div id="search-container">
                 <div class="search-bar">
                     <input
                         type="text"
                         id="search"
-                        placeholder="Search for a city"
+                        placeholder="Search for a city name or a postal code"
                     />
                     <button id="search-btn">
                         <img
@@ -78,18 +91,61 @@
                 <div id="cityGuesses"></div>
             </div>
 
-            <div class="content">
+            <div class="loading-icon">
+               <img src="assets/img/loading-icon.svg" alt="Loading icon" class="loading-icon">
+            </div>
+            
+            <div class="content" style="display: none;">
                 <h1 id="city-name">City name</h1>
                 <div class="meteo-infos">
-                    <img src="https://picsum.photos/200" alt="" />
-                    <p>
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                        Impedit dignissimos, cupiditate veniam minus totam
-                        nostrum fugiat veritatis, itaque sit necessitatibus
-                        commodi porro harum possimus distinctio nisi nobis
-                        consectetur sint aut ea at laboriosam quos explicabo
-                        architecto. Nisi, porro autem!
-                    </p>
+                    <div class="pack currentWeather">
+                        <h3>Current weather</h3>
+                        <div class="card">
+                            <h4>Friday 21</h4>
+                            <div>
+                                <img
+                                    src="assets/img/weather_icons/cloudy-day-1.svg"
+                                    alt="Weather icon"
+                                />
+                                <table>
+                                    <tr>
+                                        <td>
+                                            <span class="tempMax">25°</span>
+                                            <i
+                                                class="fa-solid fa-temperature-arrow-up"
+                                            ></i>
+                                        </td>
+                                        <td>
+                                            <span class="tempMin">17°</span>
+                                            <i
+                                                class="fa-solid fa-temperature-arrow-down"
+                                            ></i>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <span class="probRain">60%</span>
+                                            <i class="fa-solid fa-droplet"></i>
+                                        </td>
+                                        <td>
+                                            <span class="sunDuration">4h</span>
+                                            <i class="fa-solid fa-sun"></i>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="pack hourly-forecast">
+                        <h3>Hourly forecast</h3>
+                        <div class="card"></div>
+                    </div>
+                    <div class="pack days-forecast">
+                        <h3>n-days forecast</h3>
+                        <div class="card">
+                            
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
