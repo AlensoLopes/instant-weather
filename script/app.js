@@ -1,3 +1,11 @@
+function Func() {
+  fetch("./dict.json")
+      .then((res) => {
+      return res.json();
+  })
+  .then((data) => console.log(data));
+}
+Func()
 let searchInput = document.getElementById("search"),
   searchButton = document.getElementById("search-btn"),
   forecastDurationInput = document.getElementById("forecast-duration"),
@@ -25,7 +33,7 @@ let searchInput = document.getElementById("search"),
  */
 function weatherStatusToPic(status, night)
 {
-    var map = {};
+    let dict = JSON.parse(txt);
 
 }
 /*
