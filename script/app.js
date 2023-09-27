@@ -18,6 +18,16 @@ let searchInput = document.getElementById("search"),
   WeatherApiToken =
     "6051ed4396ddb33dd0a53913aa5479b93328e2784fab430693ed7cbe340d9557";
 
+
+/**
+ * @param {int} status the weather code
+ * @param {boolean} night if it's night
+ */
+function weatherStatusToPic(status, night)
+{
+    var map = {};
+
+}
 /*
  * Search for a cities in the API when the user types in the search bar
  */
@@ -37,23 +47,30 @@ function searchInputChanged() {
       "&fields=nom,code,codesPostaux";
   }
 
-  fetch(apiURL)
-    .then(res => response = res.json())
-    .then(data => {
-      if (data.length == 0 && cityName.length > 0) {
-        displayCitiesGuesses(data, true);
+  const xhttpr = new XMLHttpRequest();
+  xhttpr.open("GET", apiURL, true);
+
+  xhttpr.send();
+  // console.log("Request sent : "+apiURL);
+
+  xhttpr.onload = () => {
+    if (xhttpr.status === 200) {
+      const response = JSON.parse(xhttpr.response);
+      // console.log(response);
+      if (response.length == 0 && cityName.length > 0) {
+        displayCitiesGuesses(response, true);
       } else if (cityName.length > 0) {
-        displayCitiesGuesses(data);
+        displayCitiesGuesses(response);
       } else {
         displayCitiesGuesses("");
       }
-    })
-    .catch(error => {
+    } else {
       console.error(
-        "The request failed : " + apiURL + " " + error);
-    });
+        "The request failed : " + apiURL + " " + xhttpr.status
+      );
+    }
+  };
 }
-
 
 /*
  * Display the cities guesses in the HTML page
@@ -106,7 +123,6 @@ function cityChoiceMade(city) {
 /*
  * Retrieve the weather data from the API
  */
-
 function meteoAPIRequest(city) {
   let apiURL =
     "https://api.meteo-concept.com/api/forecast/daily?token=" +
@@ -114,39 +130,38 @@ function meteoAPIRequest(city) {
     "&insee=" +
     city.code;
 
-  (city.code >= 97000 && city.code < 99000
-    ? noMeteo() :
-    fetch(apiURL)
-      .then(response => {
-        if (!response.ok) {
-          throw new Error();
-        } else
-          return response.json();
-      })
-      .then(response => {
-        setTimeout(
-          () => displayMeteoInfos(response),
-          Math.random() * 1000 + 500
-        );
-      })
-      .catch(() => {
-        noMeteo();
-      }));
-}
+  const xhttpr = new XMLHttpRequest();
+  xhttpr.open("GET", apiURL, true);
 
-function noMeteo() {
-  displayMessage("City's meteo unavailable",
-    "We're sorry but the meteo is not available for " +
-    "this city.");
-  document
-    .querySelector(".content")
-    .classList.remove("content-active");
-  document
-    .querySelector("img.loading-icon-active")
-    .classList.replace("loading-icon-active", "loading-icon");
-  searchInput.value = "";
-}
+  xhttpr.send();
+  // console.log("Request sent : "+apiURL);
 
+  xhttpr.onload = () => {
+    if (xhttpr.status === 200) {
+      const meteoInfos = JSON.parse(xhttpr.response);
+      setTimeout(
+        () => displayMeteoInfos(meteoInfos),
+        Math.random() * 1000 + 500
+      );
+    } else if (xhttpr.status === 400) {
+      displayMessage(
+        "City's meteo unavailable",
+        "We're sorry but the meteo is not available for this city."
+      );
+      document
+        .querySelector(".content")
+        .classList.remove("content-active");
+      document
+        .querySelector("img.loading-icon-active")
+        .classList.replace("loading-icon-active", "loading-icon");
+      searchInput.value = "";
+    } else {
+      console.error(
+        "The request failed : " + apiURL + " " + xhttpr.status
+      );
+    }
+  };
+}
 
 /*
  * Display a message in the HTML page
