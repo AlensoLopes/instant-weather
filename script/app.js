@@ -101,6 +101,7 @@ function cityChoiceMade(city) {
     .querySelector("img.loading-icon")
     .classList.replace("loading-icon", "loading-icon-active");
   meteoAPIRequest(city);
+  hourlyAPIRequest(city);
 }
 
 /*
@@ -147,6 +148,29 @@ function noMeteo() {
   searchInput.value = "";
 }
 
+function hourlyAPIRequest(city){
+  let apiURL = "https://api.meteo-concept.com/api/forecast/nextHours?token=" +
+    WeatherApiToken +
+    "&insee=" +
+    city.code +
+    "&hourly=true";
+
+    fetch(apiURL)
+      .then(response => response = response.json())
+      .then(data =>{
+        displayHourlyInfos(data);
+      })
+}
+
+function displayHourlyInfos(response){
+  console.log(response.forecast);
+  response.forecast.forEach(element =>{
+    console.log(element.datetime);
+    console.log(element.temp2m);
+    console.log(element.probarain);
+    console.log(element.weather);
+  })
+}
 
 /*
  * Display a message in the HTML page
