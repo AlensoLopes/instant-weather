@@ -134,6 +134,94 @@ function meteoAPIRequest(city) {
       }));
 }
 
+
+/**
+ * Change the background according the city selected
+ */
+function changeBackgroundCityName(city){
+  const cityName = city.nom.toLowerCase();
+  const imagePath = `./../assets/img/cities/${cityName}.jpg`;
+  fetch(imagePath)
+    .then((response) => {
+      if (response.status === 200) {
+        document.body.style.backgroundImage = `url(${imagePath})`;
+      } else {
+        try
+        {
+          getRegionByCity(city.nom);
+        }
+        catch(error){
+          console.error(error);
+        }
+      }
+    })
+    .catch((error) => {
+    });
+  }
+
+
+  // Fonction pour obtenir les données des régions depuis l'API
+async function getRegions() {
+  const response = await fetch('https://geo.api.gouv.fr/regions');
+  const regionsJSON = await response.json();
+  return regionsJSON;
+}
+
+// Fonction pour obtenir les données de la commune depuis l'API en fonction de son nom
+async function getCities(nomCommune) {
+  const response = await fetch(`https://geo.api.gouv.fr/communes?nom=${encodeURIComponent(nomCommune)}`);
+  const communesJSON = await response.json();
+
+  // Supposons que vous souhaitez travailler avec la première commune trouvée
+  if (communesJSON.length > 0) {
+    return communesJSON[0];
+  } else {
+    return null; // Aucune commune trouvée avec ce nom
+  }
+}
+
+// Fonction pour trouver le nom de la région en fonction de la commune
+async function getRegionByCity(nomCommune) {
+  
+  const communeJSON = await getCities(nomCommune);
+  console.log(communeJSON);
+
+  if (communeJSON) {
+    const regionsJSON = await getRegions();
+    const codeRegionCommune = communeJSON.codeRegion;
+
+    const regionCorrespondante = regionsJSON.find(region => region.code === codeRegionCommune);
+
+    if (regionCorrespondante) {
+      if(regionCorrespondante.nom == "Provence-Alpes-Côte d'Azur"){
+        regionCorrespondante.nom = "paca";
+      }
+      res = regionCorrespondante.nom.toLowerCase();
+      res = res.replace(/ /g, "-");
+        index = Math.round(Math.random()) + 1;
+        console.log(index);
+        const imagePath = `./../assets/img/cities/${res}/grand${index}.jpg`;
+        fetch(imagePath)
+          .then((response) => {
+            if (response.status === 200) {
+              document.body.style.backgroundImage = `url(${imagePath})`;
+            } else {
+                throw new Error();
+            }
+          })
+          .catch((error) => {
+            console.error("Error request : " +error);
+          });
+
+    } else {
+      return "Région non trouvée";
+    }
+  } else {
+    return "Commune non trouvée";
+  }
+  return true;
+}
+
 function noMeteo() {
   displayMessage("City's meteo unavailable",
     "We're sorry but the meteo is not available for " +
