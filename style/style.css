@@ -196,6 +196,13 @@ div#search-settings.hidden {
     transform: translateY(3px);
 }
 
+.AdditionalInfos{
+    font-size: 0.9rem;
+    color: #4F4F4F;
+    font-style: italic;
+    padding-top: 0.25fearem;
+}
+
 /* City name style */
 
 h1#city-name {
@@ -365,9 +372,25 @@ img.loading-icon-active {
     margin-top: 4rem;
 }
 
-.AdditionalInfos{
-    font-size: 0.9rem;
-    color: #4F4F4F;
-    font-style: italic;
-    padding-top: 0.25fearem;
+/* Responsive */
+
+@media screen and (max-width: 600px) {
+
+    body {
+        padding: 1rem;
+    }
+
+    #container {
+        min-height: 75px;
+        width: 100%;
+        padding: 1rem;
+    }
+
+    #search-container {
+        width: calc(100% - 2rem);
+    }
+
+    h1#city-name {
+        margin: 3rem 0 1rem 0;
+    }
 }
