@@ -147,6 +147,29 @@ function noMeteo() {
   searchInput.value = "";
 }
 
+function hourlyAPIRequest(city){
+  let apiURL = "https://api.meteo-concept.com/api/forecast/nextHours?token=" +
+    WeatherApiToken +
+    "&insee=" +
+    city.code +
+    "&hourly=true";
+
+    fetch(apiURL)
+      .then(response => response = response.json())
+      .then(data =>{
+        displayHourlyInfos(data);
+      })
+}
+
+function displayHourlyInfos(response){
+  console.log(response.forecast);
+  response.forecast.forEach(element =>{
+    console.log(element.datetime.split('T')[1].split('+')[0].substring(0, 5));
+    console.log(element.temp2m);
+    console.log(element.probarain);
+    console.log(element.weather);
+  })
+}
 
 /*
  * Display a message in the HTML page
@@ -173,6 +196,7 @@ function displayMeteoInfos(response) {
   displayCurrentWeather(response);
   // Hourly forecast
   // displayHourlyForecast();
+  hourlyAPIRequest(response.city);
   // n-days forecast
   displayNDaysForecast(response);
 
