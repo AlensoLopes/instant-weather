@@ -364,3 +364,10 @@ img.loading-icon-active {
     height: 50px;
     margin-top: 4rem;
 }
+
+.AdditionalInfos{
+    font-size: 0.9rem;
+    color: #4F4F4F;
+    font-style: italic;
+    padding-top: 0.25fearem;
+}
