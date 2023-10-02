@@ -382,4 +382,8 @@ img.loading-icon-active {
     #search-container {
         width: calc(100% - 2rem);
     }
+
+    h1#city-name {
+        margin: 3rem 0 1rem 0;
+    }
 }
