@@ -154,13 +154,13 @@ function displayCurrentWeather() {
         weekday + " " + wc.date.getDate();
 
     document.querySelector(".currentWeather .tempMax").textContent =
-        wc.day[0].tmax + "°";
+        wc.day[1].tmax + "°";
     document.querySelector(".currentWeather .tempMin").textContent =
-    wc.day[0].tmin + "°";
+    wc.day[1].tmin + "°";
     document.querySelector(".currentWeather .probRain").textContent =
-    wc.day[0].probarain + "%";
+    wc.day[1].probarain + "%";
     document.querySelector(".currentWeather .sunDuration").textContent =
-    wc.day[0].sun_hours + "h";
+    wc.day[1].sun_hours + "h";
 
     document
         .querySelector(".currentWeather .card")
@@ -177,19 +177,19 @@ function displayCurrentWeather() {
             if (settings.rainfall) {
                 bodyText +=
                     "The rainfall will be " +
-                    wc.day[0].probarain +
+                    wc.day[1].probarain +
                     "%.<br>";
             }
             if (settings.averageWind) {
                 bodyText +=
                     "The average wind will be " +
-                    wc.day[0].wind10m +
+                    wc.day[1].wind10m +
                     "km/h.<br>";
             }
             if (settings.windDirection) {
                 bodyText +=
                     "The wind will blow from " +
-                    wc.day[0].dirwind10m +
+                    wc.day[1].dirwind10m +
                     "°.<br>";
             }
 
@@ -241,13 +241,13 @@ function displayNDaysForecast() {
         daysForecast[i].remove();
     }
 
-    let i = 1;
+    let i = 2;
     while (i < wc.day.length && i <= settings.forecastDuration) {
         let day = wc.day[i],
-            date = new Date(day.datetime);
+            date = new Date(day.date);
         let weekday = returnWeekDay(date.getDay()).substring(0, 3) + ".";
 
-        let dayDiv = document.createElement("div");
+        let dayDiv = document.createElement("div"); 
         dayDiv.classList.add("daily-card");
 
         let dayTitle = document.createElement("h4");
