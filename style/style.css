@@ -255,7 +255,7 @@ div.currentWeather img {
 }
 
 div.hourly-forecast div.card {
-    background-image: url("../assets/img/hourly_forecast_placeholder.png");
+    background: #599;
     background-position: center;
     background-size: cover;
     width: 400px;
@@ -302,6 +302,25 @@ div.daily-card table, div.currentWeather table {
 
 div.currentWeather table {
     border-spacing: 1rem;
+}
+/* Hourly Forecast */
+
+div.pack.hourly-forecast .card {
+	position: relative;
+    overflow-x: scroll;
+    overflow-y: hidden;
+    white-space: nowrap;
+}
+
+div.pack.hourly-forecast .card div
+{
+	position: absolute;
+}
+
+div.pack.hourly-forecast .card .time
+{
+	color: #fff;
+	bottom: 2px;
 }
 
 /* Message display style */

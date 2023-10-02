@@ -161,14 +161,39 @@ function hourlyAPIRequest(city){
       })
 }
 
+/* 
+ * Display hourly infos
+ */
 function displayHourlyInfos(response){
-  console.log(response.forecast);
-  response.forecast.forEach(element =>{
-    console.log(element.datetime.split('T')[1].split('+')[0].substring(0, 5));
+  const spacing = 70;
+  
+  const forecastCard = document.querySelector(".hourly-forecast .card");
+  console.log(forecastCard);
+  let hoursNumber = response.forecast.length;
+  
+  console.log(hoursNumber);
+  for (let i = 0; i < hoursNumber; i++)
+  {
+	let element = response.forecast[i];
+	//time
+    let hourTime = document.createElement("div");
+	hourTime.textContent = element.datetime.split('T')[1].split('+')[0].substring(0, 5);
+	hourTime.classList.add("time");
+	hourTime.style.left = `${10+spacing*i}px`;
+	forecastCard.appendChild(hourTime);
+  }
+  /*response.forecast.forEach(element =>{
     console.log(element.temp2m);
     console.log(element.probarain);
-    console.log(element.weather);
-  })
+    console.log(element.weather); 
+    //time
+    let hourTime = document.createElement("div");
+	hourTime.textContent = element.datetime.split('T')[1].split('+')[0].substring(0, 5));
+	hourTime.classList.add("time");
+	hourTime.style.
+	forecastCard.appendChild(hourTime);
+  });*/
+  
 }
 
 /*
@@ -184,7 +209,6 @@ function displayMessage(title, body) {
  * Display meteo infos in the HTML page
  */
 function displayMeteoInfos(response) {
-  console.log(response);
   localStorage.setItem("response", JSON.stringify(response));
   document.getElementById("city-name").textContent = response.city.name;
 
