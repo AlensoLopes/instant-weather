@@ -196,6 +196,13 @@ div#search-settings.hidden {
     transform: translateY(3px);
 }
 
+.AdditionalInfos{
+    font-size: 0.9rem;
+    color: #4F4F4F;
+    font-style: italic;
+    padding-top: 0.25fearem;
+}
+
 /* City name style */
 
 h1#city-name {
