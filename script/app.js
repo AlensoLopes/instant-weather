@@ -101,6 +101,7 @@ function cityChoiceMade(city) {
     .querySelector("img.loading-icon")
     .classList.replace("loading-icon", "loading-icon-active");
   meteoAPIRequest(city);
+  changeBackgroundCityName(city);
 }
 
 /*
@@ -151,11 +152,12 @@ function changeBackgroundCityName(city){
           getRegionByCity(city.nom);
         }
         catch(error){
-          console.error(error);
+          console.log("Pas trouvé");
         }
       }
     })
     .catch((error) => {
+      console.log("Erreur");
     });
   }
 
@@ -198,6 +200,7 @@ async function getRegionByCity(nomCommune) {
       }
       res = regionCorrespondante.nom.toLowerCase();
       res = res.replace(/ /g, "-");
+      console.log(res);
         index = Math.round(Math.random()) + 1;
         console.log(index);
         const imagePath = `./../assets/img/cities/${res}/grand${index}.jpg`;
@@ -206,7 +209,7 @@ async function getRegionByCity(nomCommune) {
             if (response.status === 200) {
               document.body.style.backgroundImage = `url(${imagePath})`;
             } else {
-                throw new Error();
+                console.log("Erreur");
             }
           })
           .catch((error) => {
