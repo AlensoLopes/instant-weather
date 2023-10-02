@@ -364,3 +364,26 @@ img.loading-icon-active {
     height: 50px;
     margin-top: 4rem;
 }
+
+/* Responsive */
+
+@media screen and (max-width: 600px) {
+
+    body {
+        padding: 1rem;
+    }
+
+    #container {
+        min-height: 75px;
+        width: 100%;
+        padding: 1rem;
+    }
+
+    #search-container {
+        width: calc(100% - 2rem);
+    }
+
+    h1#city-name {
+        margin: 3rem 0 1rem 0;
+    }
+}
