@@ -252,7 +252,7 @@ function displayNDaysForecast() {
     }
 
     let i = 2;
-    while (i < wc.day.length && i <= settings.forecastDuration) {
+    while (i < wc.day.length && i-1 <= settings.forecastDuration) {
         let day = wc.day[i],
             date = new Date(day.date);
         let weekday = returnWeekDay(date.getDay()).substring(0, 3) + ".";
