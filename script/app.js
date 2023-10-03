@@ -168,20 +168,57 @@ function displayHourlyInfos(response){
   const spacing = 70;
   
   const forecastCard = document.querySelector(".hourly-forecast .card");
-  console.log(forecastCard);
-  let hoursNumber = response.forecast.length;
-  
-  console.log(hoursNumber);
+  const curve = document.querySelector(".hourly-forecast .card #tCurve");
+  const hoursNumber = response.forecast.length;
+
+  let timeList = [];
+  let tempList = [];
+  let probaRainList = [];
+  let weatherList = [];
+  //fill the lists
+  response.forecast.forEach(element => {
+    timeList.push(element.datetime);
+    tempList.push(element.temp2m);
+    probaRainList.push(element.probarain);
+    weatherList.push(element.weather); 
+  });
+ 
+  console.log(tempList);
+  //places everything
   for (let i = 0; i < hoursNumber; i++)
   {
-	let element = response.forecast[i];
-	//time
+    //time
     let hourTime = document.createElement("div");
-	hourTime.textContent = element.datetime.split('T')[1].split('+')[0].substring(0, 5);
-	hourTime.classList.add("time");
-	hourTime.style.left = `${10+spacing*i}px`;
-	forecastCard.appendChild(hourTime);
+    hourTime.textContent = timeList[i].split('T')[1].split('+')[0].substring(0, 5);
+    hourTime.classList.add("time");
+    hourTime.style.left = `${10+spacing*i}px`;
+    forecastCard.appendChild(hourTime);
   }
+
+  //set curve div width
+  curve.style.width = `${50+spacing*hoursNumber}px`;
+  //set curve clip path & temperature labels
+  const maxTemp = Math.max.apply(Math,tempList);
+  const minTemp = Math.min.apply(Math,tempList);
+
+  let getY = (valT) => {
+    //Y axis goes down
+    const minY = 5;
+    const maxY = 100;
+    const ratio = 1-(valT-minTemp)/(maxTemp-minTemp);
+    return ratio*(minY-maxY)+minY;
+  };
+
+  let path = `path("`;
+  path += `M0,${getY(tempList[0])}`;
+  for (let i = 0; i < hoursNumber; i++)
+  {
+    path+=` L${10+spacing*i},${getY(tempList[i])}`;
+  }
+  path += ` Z")`;
+  console.log(getY(3));
+  curve.style.clipPath = path;
+
   /*response.forecast.forEach(element =>{
     console.log(element.temp2m);
     console.log(element.probarain);

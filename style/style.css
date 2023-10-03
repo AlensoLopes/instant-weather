@@ -323,6 +323,13 @@ div.pack.hourly-forecast .card .time
 	bottom: 2px;
 }
 
+div.pack.hourly-forecast .card #tCurve {
+    left: 0px;
+    top: 0px;
+    height: 100%;
+    background-color: #f00a;
+}
+
 /* Message display style */
 
 div#infoMessageContainer.hidden {
