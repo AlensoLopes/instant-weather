@@ -374,7 +374,7 @@ img.loading-icon-active {
 
 /* Responsive */
 
-@media screen and (max-width: 600px) {
+@media screen and (max-aspect-ratio: 1) {
 
     body {
         padding: 1rem;
