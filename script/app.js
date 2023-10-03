@@ -1,3 +1,5 @@
+import { dictIcon } from "./iconDict.js";
+
 let searchInput = document.getElementById("search"),
     searchButton = document.getElementById("search-btn"),
     forecastDurationInput = document.getElementById("forecast-duration"),
@@ -39,12 +41,14 @@ function searchInputChanged() {
     }
 
     fetch(apiURL)
-        .then((res) => (response = res.json()))
-        .then((data) => {
-            if (data.length == 0 && cityName.length > 0) {
-                displayCitiesGuesses(data, true);
+        .then((res) => {
+            return res.json();
+        })
+        .then((res) => {
+            if (res.length == 0 && cityName.length > 0) {
+                displayCitiesGuesses(res, true);
             } else if (cityName.length > 0) {
-                displayCitiesGuesses(data);
+                displayCitiesGuesses(res);
             } else {
                 displayCitiesGuesses("");
             }
@@ -153,6 +157,14 @@ function displayCurrentWeather() {
     document.querySelector(".currentWeather h4").textContent =
         weekday + " " + wc.date.getDate();
 
+    if (new Date().getHours() < 8 || new Date().getHours() > 20) {
+        document.querySelector(".card div img").src =
+            "assets/img/icons/" + dictIcon["nightIcon"][wc.day[1].weatherCode];
+    } else {
+        document.querySelector(".card div img").src =
+            "assets/img/icons/" + dictIcon["dayIcon"][wc.day[1].weatherCode];
+    }
+
     document.querySelector(".currentWeather .tempMax").textContent =
         wc.day[1].tmax + "°";
     document.querySelector(".currentWeather .tempMin").textContent =
@@ -251,7 +263,8 @@ function displayNDaysForecast() {
         dayTitle.textContent = weekday + " " + date.getDate();
 
         let illustration = document.createElement("img");
-        illustration.src = "assets/img/weather_icons/day.svg";
+        illustration.src =
+            "assets/img/icons/" + dictIcon["dayIcon"][wc.day[i].weatherCode];
         illustration.alt = day.weather;
 
         let table = document.createElement("table");
@@ -341,6 +354,9 @@ function onPageLoad() {
     // Adding event listeners
     searchInput.addEventListener("input", () => searchInputChanged());
     searchInput.addEventListener("focus", () => searchInputChanged());
+    document.getElementById("settingsSaveButton").addEventListener("click", () =>
+        updateSearchSettings()
+    );
     window.addEventListener("click", function (mouseEvent) {
         if (
             !document.getElementById("cityGuesses").contains(mouseEvent.target)
@@ -388,6 +404,7 @@ class WeatherCard {
     date;
     weekday;
     day = new Array({
+        weatherCode: -1,
         tmax: 0,
         tmin: 0,
         probarain: 0,
@@ -442,6 +459,7 @@ class WeatherCard {
         response.forecast.forEach((day) => {
             this.day.push({
                 date: new Date(day.datetime),
+                weatherCode: day.weather,
                 tmax: day.tmax,
                 tmin: day.tmin,
                 probarain: day.probarain,
