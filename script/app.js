@@ -131,7 +131,6 @@ function displayMessage(title, body) {
  * Display meteo infos in the HTML page
  */
 function displayMeteoInfos() {
-    console.log(wc);
     document.getElementById("city-name").textContent = wc.cityName;
 
     document
@@ -160,9 +159,11 @@ function displayCurrentWeather() {
     if (new Date().getHours() < 8 || new Date().getHours() > 20) {
         document.querySelector(".card div img").src =
             "assets/img/icons/" + dictIcon["nightIcon"][wc.day[1].weatherCode];
+        document.querySelector(".card div img").alt = dictIcon["alt"][wc.day[1].weatherCode];
     } else {
         document.querySelector(".card div img").src =
             "assets/img/icons/" + dictIcon["dayIcon"][wc.day[1].weatherCode];
+        document.querySelector(".card div img").alt = dictIcon["alt"][wc.day[1].weatherCode];
     }
 
     document.querySelector(".currentWeather .tempMax").textContent =
@@ -178,6 +179,7 @@ function displayCurrentWeather() {
         .querySelector(".currentWeather .card")
         .addEventListener("click", () => {
             let bodyText = "";
+            bodyText += document.querySelector(".card div img").alt + ".<br>";
             if (settings.latitude) {
                 bodyText += "The latitude is " + wc.latitude + ".<br>";
             }
@@ -263,9 +265,8 @@ function displayNDaysForecast() {
         dayTitle.textContent = weekday + " " + date.getDate();
 
         let illustration = document.createElement("img");
-        illustration.src =
-            "assets/img/icons/" + dictIcon["dayIcon"][wc.day[i].weatherCode];
-        illustration.alt = day.weather;
+        illustration.src = "assets/img/icons/" + dictIcon["dayIcon"][wc.day[i].weatherCode];
+        illustration.alt = dictIcon["alt"][wc.day[i].weatherCode];
 
         let table = document.createElement("table");
         table.innerHTML = `<tr>
@@ -298,6 +299,7 @@ function displayNDaysForecast() {
         dayDiv.appendChild(table);
 
         let bodyText = "";
+        bodyText += illustration.alt + ".<br>";
         if (settings.rainfall) {
             bodyText += "The rainfall will be " + day.probarain + "%.<br>";
         }
@@ -429,7 +431,6 @@ class WeatherCard {
             WeatherApiToken +
             "&insee=" +
             codeInsee;
-        console.log(apiURL);
 
         codeInsee >= 97000 && codeInsee < 99000
             ? noMeteo()
