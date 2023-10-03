@@ -156,29 +156,25 @@ function displayCurrentWeather() {
     document.querySelector(".currentWeather .tempMax").textContent =
         wc.day[1].tmax + "°";
     document.querySelector(".currentWeather .tempMin").textContent =
-    wc.day[1].tmin + "°";
+        wc.day[1].tmin + "°";
     document.querySelector(".currentWeather .probRain").textContent =
-    wc.day[1].probarain + "%";
+        wc.day[1].probarain + "%";
     document.querySelector(".currentWeather .sunDuration").textContent =
-    wc.day[1].sun_hours + "h";
+        wc.day[1].sun_hours + "h";
 
     document
         .querySelector(".currentWeather .card")
         .addEventListener("click", () => {
             let bodyText = "";
             if (settings.latitude) {
-                bodyText +=
-                    "The latitude is " + wc.latitude + ".<br>";
+                bodyText += "The latitude is " + wc.latitude + ".<br>";
             }
             if (settings.longitude) {
-                bodyText +=
-                    "The longitude is " + wc.longitude + ".<br>";
+                bodyText += "The longitude is " + wc.longitude + ".<br>";
             }
             if (settings.rainfall) {
                 bodyText +=
-                    "The rainfall will be " +
-                    wc.day[1].probarain +
-                    "%.<br>";
+                    "The rainfall will be " + wc.day[1].probarain + "%.<br>";
             }
             if (settings.averageWind) {
                 bodyText +=
@@ -247,7 +243,7 @@ function displayNDaysForecast() {
             date = new Date(day.date);
         let weekday = returnWeekDay(date.getDay()).substring(0, 3) + ".";
 
-        let dayDiv = document.createElement("div"); 
+        let dayDiv = document.createElement("div");
         dayDiv.classList.add("daily-card");
 
         let dayTitle = document.createElement("h4");
@@ -391,16 +387,14 @@ class WeatherCard {
     longitude;
     date;
     weekday;
-    day = new Array(
-      {
+    day = new Array({
         tmax: 0,
         tmin: 0,
         probarain: 0,
         sun_hours: 0,
         wind10m: 0,
-        dirwind10m: 0
-      }
-    );
+        dirwind10m: 0,
+    });
 
     constructor(codeInsee) {
         this.codeInsee = codeInsee;
@@ -445,16 +439,16 @@ class WeatherCard {
         this.longitude = response.city.longitude;
         this.date = new Date(response.forecast[0].datetime);
         this.weekday = returnWeekDay(this.date.getDay());
-        response.forecast.forEach(day =>{
-          this.day.push({
-            date: new Date(day.datetime),
-            tmax: day.tmax,
-            tmin: day.tmin,
-            probarain: day.probarain,
-            sun_hours: day.sun_hours,
-            wind10m: day.wind10m,
-            dirwind10m: day.dirwind10m
-          });
+        response.forecast.forEach((day) => {
+            this.day.push({
+                date: new Date(day.datetime),
+                tmax: day.tmax,
+                tmin: day.tmin,
+                probarain: day.probarain,
+                sun_hours: day.sun_hours,
+                wind10m: day.wind10m,
+                dirwind10m: day.dirwind10m,
+            });
         });
     }
 }
