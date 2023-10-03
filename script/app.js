@@ -42,7 +42,7 @@ function searchInputChanged() {
 
     fetch(apiURL)
         .then((res) => {
-          return res.json();
+            return res.json();
         })
         .then((res) => {
             if (res.length == 0 && cityName.length > 0) {
@@ -157,7 +157,13 @@ function displayCurrentWeather() {
     document.querySelector(".currentWeather h4").textContent =
         weekday + " " + wc.date.getDate();
 
-    document.querySelector(".card div img").src = "assets/img/icons/" + dictIcon["dayIcon"][wc.day[1].weatherCode];
+    if (new Date().getHours() < 8 || new Date().getHours() > 20) {
+        document.querySelector(".card div img").src =
+            "assets/img/icons/" + dictIcon["nightIcon"][wc.day[1].weatherCode];
+    } else {
+        document.querySelector(".card div img").src =
+            "assets/img/icons/" + dictIcon["dayIcon"][wc.day[1].weatherCode];
+    }
 
     document.querySelector(".currentWeather .tempMax").textContent =
         wc.day[1].tmax + "°";
@@ -257,7 +263,8 @@ function displayNDaysForecast() {
         dayTitle.textContent = weekday + " " + date.getDate();
 
         let illustration = document.createElement("img");
-        illustration.src = "assets/img/icons/" + dictIcon["dayIcon"][wc.day[i].weatherCode];
+        illustration.src =
+            "assets/img/icons/" + dictIcon["dayIcon"][wc.day[i].weatherCode];
         illustration.alt = day.weather;
 
         let table = document.createElement("table");
@@ -347,6 +354,9 @@ function onPageLoad() {
     // Adding event listeners
     searchInput.addEventListener("input", () => searchInputChanged());
     searchInput.addEventListener("focus", () => searchInputChanged());
+    document.getElementById("settingsSaveButton").addEventListener("click", () =>
+        updateSearchSettings()
+    );
     window.addEventListener("click", function (mouseEvent) {
         if (
             !document.getElementById("cityGuesses").contains(mouseEvent.target)

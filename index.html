@@ -19,7 +19,7 @@
 
     <body>
         <div class="hidden" id="search-settings">
-            <form action="javascript:updateSearchSettings()">
+            <form action="javascript:void(0)">
                 <h2>Search settings</h2>
                 <div class="setting">
                     <label id="forecast-duration-label" for="forecast-duration"
@@ -63,7 +63,7 @@
                         id="wind-direction"
                     />
                 </div>
-                <button type="submit">Save</button>
+                <button type="submit" id="settingsSaveButton">Save</button>
                 <p class="AdditionalInfos">Click on a card to see additional informations</p>
             </form>
         </div>
