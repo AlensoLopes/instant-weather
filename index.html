@@ -10,7 +10,7 @@
             type="image/x-icon"
         />
         <title>Instant-Weather</title>
-        <script src="script/app.js" defer="true"></script>
+        <script type="module" src="script/app.js" defer="true"></script>
         <script
             src="https://kit.fontawesome.com/796ab93bf0.js"
             crossorigin="anonymous"
@@ -19,7 +19,7 @@
 
     <body>
         <div class="hidden" id="search-settings">
-            <form action="javascript:updateSearchSettings()">
+            <form action="javascript:void(0)">
                 <h2>Search settings</h2>
                 <div class="setting">
                     <label id="forecast-duration-label" for="forecast-duration"
@@ -63,7 +63,8 @@
                         id="wind-direction"
                     />
                 </div>
-                <button type="submit">Save</button>
+                <button type="submit" id="settingsSaveButton">Save</button>
+                <p class="AdditionalInfos">Click on a card to see additional informations</p>
             </form>
         </div>
         <div class="hidden" id="infoMessageContainer">
@@ -104,7 +105,7 @@
                             <h4>Friday 21</h4>
                             <div>
                                 <img
-                                    src="assets/img/weather_icons/cloudy-day-1.svg"
+                                    src="assets/img/icons/clear-day.svg"
                                     alt="Weather icon"
                                 />
                                 <table>
