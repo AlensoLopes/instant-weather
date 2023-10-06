@@ -196,27 +196,29 @@ function displayHourlyInfos(response){
   }
 
   //set curve div width
-  curve.style.width = `${50+spacing*hoursNumber}px`;
+  curve.style.width = `${spacing*hoursNumber}px`;
   //set curve clip path & temperature labels
   const maxTemp = Math.max.apply(Math,tempList);
   const minTemp = Math.min.apply(Math,tempList);
-
+  const minY = 10;
+  const maxY = 100;
   let getY = (valT) => {
     //Y axis goes down
-    const minY = 5;
-    const maxY = 100;
     const ratio = 1-(valT-minTemp)/(maxTemp-minTemp);
-    return ratio*(minY-maxY)+minY;
+    return ratio*(maxY-minY)+minY;
   };
 
+ 
   let path = `path("`;
   path += `M0,${getY(tempList[0])}`;
   for (let i = 0; i < hoursNumber; i++)
   {
-    path+=` L${10+spacing*i},${getY(tempList[i])}`;
+    path+=` L${25+spacing*i},${getY(tempList[i])}`;
   }
-  path += ` Z")`;
-  console.log(getY(3));
+  //close the path
+  path+= ` L${spacing*hoursNumber*2},${getY(tempList[hoursNumber-1])}`;
+  path += `L${spacing*hoursNumber*2},${maxY*2} L0,${maxY*2}Z")`;
+  console.log(path);
   curve.style.clipPath = path;
 
   /*response.forecast.forEach(element =>{
