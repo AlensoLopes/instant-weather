@@ -184,7 +184,7 @@ function displayHourlyInfos(response){
   });
  
   console.log(tempList);
-  //places everything
+  //TIMESTAMPS
   for (let i = 0; i < hoursNumber; i++)
   {
     //time
@@ -195,25 +195,36 @@ function displayHourlyInfos(response){
     forecastCard.appendChild(hourTime);
   }
 
+  //CURVE + TEMPERATURE LABELS
   //set curve div width
   curve.style.width = `${spacing*hoursNumber}px`;
   //set curve clip path & temperature labels
   const maxTemp = Math.max.apply(Math,tempList);
   const minTemp = Math.min.apply(Math,tempList);
+  //Y axis goes down!
+  //minY : the Y of the max temperature, opposite for maxY
   const minY = 10;
-  const maxY = 100;
+  const maxY = 60;
   let getY = (valT) => {
-    //Y axis goes down
     const ratio = 1-(valT-minTemp)/(maxTemp-minTemp);
     return ratio*(maxY-minY)+minY;
   };
 
- 
   let path = `path("`;
   path += `M0,${getY(tempList[0])}`;
   for (let i = 0; i < hoursNumber; i++)
   {
-    path+=` L${25+spacing*i},${getY(tempList[i])}`;
+    let x = spacing*i;
+    let y = getY(tempList[i]);
+    //CURVE
+    path+=` L${25+x},${y}`;
+    //TEMPERATURE LABELS
+    let temp = document.createElement("div");
+    temp.textContent = tempList[i];
+    temp.classList.add("temp");
+    temp.style.left = `${20+x}px`;
+    temp.style.top = `${y-10}px`;
+    forecastCard.appendChild(temp);
   }
   //close the path
   path+= ` L${spacing*hoursNumber*2},${getY(tempList[hoursNumber-1])}`;
