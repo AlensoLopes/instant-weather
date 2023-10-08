@@ -36,8 +36,6 @@ a:hover {
 
 span.footerLink {
     background-repeat: no-repeat;
-    -webkit-transition: all 0.4s ease;
-    transition: all 0.4s ease;
     background-image: linear-gradient(180deg, transparent 10%, whitesmoke 0);
     background-size: 130%;
     background-position: 0 16px;
@@ -223,7 +221,7 @@ div#search-settings.hidden {
     font-size: 0.9rem;
     color: #4f4f4f;
     font-style: italic;
-    padding-top: 0.25fearem;
+    padding-top: 0.25rem;
 }
 
 /* City name style */
@@ -456,7 +454,7 @@ footer {
 
 /* Responsive */
 
-@media screen and (max-aspect-ratio: 1) {
+@media screen and (max-aspect-ratio: 1 / 1) {
     body {
         padding: 1rem;
     }
