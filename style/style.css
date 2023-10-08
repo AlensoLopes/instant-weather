@@ -290,7 +290,11 @@ div.currentWeather img {
 }
 
 div.hourly-forecast div.card {
-    background: #d4d0cb;
+    background: linear-gradient(
+        0deg,
+        #d4d0cb 50%,
+        #ffffff 100%
+    );
     background-position: center;
     background-size: cover;
     width: 400px;
@@ -309,7 +313,7 @@ div.days-forecast div.card {
 
 div.daily-card {
     display: inline-block;
-    background-color: #efefef;
+    background-color: #ffffff;
     padding: 0.5rem;
     border-radius: 5px;
     text-align: center;

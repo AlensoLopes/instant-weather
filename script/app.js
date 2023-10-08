@@ -1,5 +1,7 @@
+// Importation of the icons dictionnary
 import { dictIcon } from "./iconDict.js";
 
+// Initialisation of the variables used in the script
 let searchInput = document.getElementById("search"),
     searchButton = document.getElementById("search-btn"),
     forecastDurationInput = document.getElementById("forecast-duration"),
@@ -24,7 +26,6 @@ let searchInput = document.getElementById("search"),
 /*
  * Search for a cities in the API when the user types in the search bar
  */
-
 function searchInputChanged() {
     let cityName = searchInput.value;
 
@@ -106,6 +107,9 @@ function cityChoiceMade(city) {
     wc = new WeatherCard(city.code);
 }
 
+/**
+ * Function called when the city's meteo is not available (usually because it's a DOM-TOM city)
+ */
 function noMeteo() {
     displayMessage(
         "City's meteo unavailable",
@@ -116,21 +120,6 @@ function noMeteo() {
         .querySelector("img.loading-icon-active")
         .classList.replace("loading-icon-active", "loading-icon");
     searchInput.value = "";
-}
-
-function hourlyAPIRequest(city) {
-    let apiURL =
-        "https://api.meteo-concept.com/api/forecast/nextHours?token=" +
-        WeatherApiToken +
-        "&insee=" +
-        city.code +
-        "&hourly=true";
-
-    fetch(apiURL)
-        .then((response) => (response = response.json()))
-        .then((data) => {
-            displayHourlyInfos(data);
-        });
 }
 
 /*
@@ -225,19 +214,8 @@ function displayHourlyForecast() {
     path += ` L${spacing * hoursNumber * 2},${getY(tempList[hoursNumber - 1])}`;
     path += `L${spacing * hoursNumber * 2},${maxY * 2} L0,${maxY * 2}Z")`;
     curve.style.clipPath = path;
-
-    /*response.forecast.forEach(element =>{
-    console.log(element.temp2m);
-    console.log(element.probarain);
-    console.log(element.weather); 
-    //time
-    let hourTime = document.createElement("div");
-	hourTime.textContent = element.datetime.split('T')[1].split('+')[0].substring(0, 5));
-	hourTime.classList.add("time");
-	hourTime.style.
-	forecastCard.appendChild(hourTime);
-  });*/
 }
+
 /*
  * Display a message in the HTML page
  */
@@ -250,7 +228,6 @@ function displayMessage(title, body) {
 /*
  * Display meteo infos in the HTML page
  */
-
 function displayMeteoInfos() {
     document.getElementById("city-name").textContent = wc.cityName;
 
@@ -474,6 +451,9 @@ function updateSearchSettings() {
     }
 }
 
+/**
+ * Function used to initialize the page and variable used later by the script
+ */
 function onPageLoad() {
     // Adding event listeners
     searchInput.addEventListener("input", () => searchInputChanged());
@@ -520,6 +500,9 @@ function onPageLoad() {
         (settings.forecastDuration > 1 ? " days forecast" : " day forecast");
 }
 
+/**
+ * WeatherCard class used to store the weather data
+ */
 class WeatherCard {
     codeInsee;
     cityName;
@@ -600,6 +583,7 @@ class WeatherCard {
                       noMeteo();
                   });
     }
+
     assignMeteoInfos(response) {
         this.cityName = response.city.name;
         this.latitude = response.city.latitude;
