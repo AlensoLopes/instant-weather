@@ -292,7 +292,7 @@ div.currentWeather img {
 }
 
 div.hourly-forecast div.card {
-    background: #599;
+    background: #d4d0cb;
     background-position: center;
     background-size: cover;
     width: 400px;
@@ -355,7 +355,6 @@ div.pack.hourly-forecast .card div {
 }
 
 div.pack.hourly-forecast .card .time {
-    color: #fff;
     bottom: 2px;
 }
 
