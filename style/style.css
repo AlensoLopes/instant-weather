@@ -1,6 +1,6 @@
 /* Fonts importation */
 
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap");
 
 /* General styles */
 
@@ -12,7 +12,7 @@
 }
 
 body {
-    font-family: 'Inter', sans-serif;
+    font-family: "Inter", sans-serif;
     height: 100%;
     min-height: 100vh;
     width: 100%;
@@ -36,8 +36,8 @@ a:hover {
 
 span.footerLink {
     background-repeat: no-repeat;
-    -webkit-transition: all .4s ease;
-    transition: all .4s ease;
+    -webkit-transition: all 0.4s ease;
+    transition: all 0.4s ease;
     background-image: linear-gradient(180deg, transparent 10%, whitesmoke 0);
     background-size: 130%;
     background-position: 0 16px;
@@ -69,7 +69,7 @@ span.footerLink:hover {
 }
 
 .search-bar {
-    background-color: #D9D9D9;
+    background-color: #d9d9d9;
     display: flex;
     justify-content: space-between;
     flex-wrap: nowrap;
@@ -87,7 +87,7 @@ span.footerLink:hover {
     padding: 0 1rem;
     font-size: 1rem;
     font-weight: 500;
-    background-color: #D9D9D9;
+    background-color: #d9d9d9;
     color: black;
     flex: 1;
 }
@@ -96,7 +96,7 @@ span.footerLink:hover {
     border-radius: 8px;
     border: none;
     outline: none;
-    background-color: #B4B3B3;
+    background-color: #b4b3b3;
     backdrop-filter: blur(10px);
     cursor: pointer;
     height: 40px;
@@ -142,13 +142,14 @@ div.cityGuess:last-child {
 }
 
 div.cityGuess:hover {
-    background-color: #B4B3B3;
+    background-color: #b4b3b3;
     padding-left: 1rem;
 }
 
 /* Search settings */
 
-#search-settings, #infoMessageContainer {
+#search-settings,
+#infoMessageContainer {
     display: flex;
     justify-content: center;
     flex-wrap: nowrap;
@@ -207,7 +208,7 @@ div#search-settings.hidden {
 #search-settings button {
     border-radius: 8px;
     border: none;
-    background-color: #B4B3B3;
+    background-color: #b4b3b3;
     font-size: 1.25rem;
     padding: 0.75rem;
     cursor: pointer;
@@ -218,9 +219,9 @@ div#search-settings.hidden {
     transform: translateY(3px);
 }
 
-.AdditionalInfos{
+.AdditionalInfos {
     font-size: 0.9rem;
-    color: #4F4F4F;
+    color: #4f4f4f;
     font-style: italic;
     padding-top: 0.25fearem;
 }
@@ -251,7 +252,7 @@ div.content-active {
 .meteo-infos {
     display: flex;
     align-items: flex-start;
-    flex-wrap: wrap
+    flex-wrap: wrap;
 }
 
 div.pack {
@@ -330,7 +331,8 @@ div.daily-card img {
     width: 100px;
 }
 
-div.daily-card table, div.currentWeather table {
+div.daily-card table,
+div.currentWeather table {
     border-spacing: 0.5rem;
     text-align: end;
     white-space: nowrap;
@@ -342,33 +344,35 @@ div.currentWeather table {
 /* Hourly Forecast */
 
 div.pack.hourly-forecast .card {
-	position: relative;
+    position: relative;
     overflow-x: scroll;
     overflow-y: hidden;
     white-space: nowrap;
 }
 
-div.pack.hourly-forecast .card div
-{
-	position: absolute;
+div.pack.hourly-forecast .card div {
+    position: absolute;
 }
 
-div.pack.hourly-forecast .card .time
-{
-	color: #fff;
-	bottom: 2px;
+div.pack.hourly-forecast .card .time {
+    color: #fff;
+    bottom: 2px;
 }
 
-div.pack.hourly-forecast .card .temperature
-{
-	color: #fff;
+div.pack.hourly-forecast .card .temperature {
+    color: #fff;
 }
 
 div.pack.hourly-forecast .card #tCurve {
     left: 0px;
     top: 0px;
     height: 100%;
-    background: linear-gradient(0deg, rgba(34,195,168,0) 0%, rgba(70,162,140,0) 5%, rgba(220,25,25,0.5) 30%, rgba(220,25,25,1) 100%);
+    background: linear-gradient(
+        0deg,
+        rgba(84, 216, 255, 1) 15%,
+        rgba(240, 84, 84, 1) 75%,
+        rgba(240, 84, 84, 1) 100%
+    );
 }
 
 /* Message display style */
@@ -404,7 +408,7 @@ div.message p {
 div.message button {
     border-radius: 8px;
     border: none;
-    background-color: #B4B3B3;
+    background-color: #b4b3b3;
     font-size: 1rem;
     padding: 0.5rem;
     cursor: pointer;
@@ -443,7 +447,6 @@ footer {
 /* Responsive */
 
 @media screen and (max-aspect-ratio: 1) {
-
     body {
         padding: 1rem;
     }
@@ -462,7 +465,8 @@ footer {
         margin: 3rem 0 1rem 0;
     }
 
-    div.hourly-forecast, div.hourly-forecast div.card {
+    div.hourly-forecast,
+    div.hourly-forecast div.card {
         width: 100%;
     }
 }
