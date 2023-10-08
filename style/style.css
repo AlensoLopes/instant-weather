@@ -257,6 +257,8 @@ div.pack {
     display: flex;
     flex-direction: column;
     margin-top: 1rem;
+    overflow: hidden;
+    border-radius: 8px;
 }
 
 div.card {
