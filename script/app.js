@@ -161,7 +161,6 @@ function displayHourlyForecast() {
         weatherList.push(element.weather);
     });
 
-    console.log(tempList);
     //TIMESTAMPS
     for (let i = 0; i < hoursNumber; i++) {
         //time
@@ -174,6 +173,21 @@ function displayHourlyForecast() {
         hourTime.classList.add("to-refresh");
         hourTime.style.left = `${10 + spacing * i}px`;
         forecastCard.appendChild(hourTime);
+
+        // meteo icon
+        let icon = document.createElement("img"), hour = new Date(timeList[i]).getHours();
+        icon.src =
+            "assets/img/icons/" +
+            dictIcon[
+                hour <= 7 || hour >= 20
+                    ? "nightIcon"
+                    : "dayIcon"
+            ][weatherList[i]];
+        icon.alt = dictIcon["alt"][weatherList[i]];
+        icon.classList.add("icon-hourly");
+        icon.classList.add("to-refresh");
+        icon.style.left = `${10 + spacing * i + 6}px`;
+        forecastCard.appendChild(icon);
     }
 
     //CURVE + TEMPERATURE LABELS
@@ -200,7 +214,7 @@ function displayHourlyForecast() {
         path += ` L${25 + x},${y}`;
         //TEMPERATURE LABELS
         let temp = document.createElement("div");
-        temp.textContent = tempList[i];
+        temp.textContent = tempList[i] + "°";
         temp.classList.add("temp");
         temp.classList.add("to-refresh");
         temp.style.left = `${20 + x}px`;
@@ -210,7 +224,6 @@ function displayHourlyForecast() {
     //close the path
     path += ` L${spacing * hoursNumber * 2},${getY(tempList[hoursNumber - 1])}`;
     path += `L${spacing * hoursNumber * 2},${maxY * 2} L0,${maxY * 2}Z")`;
-    console.log(path);
     curve.style.clipPath = path;
 
     /*response.forecast.forEach(element =>{
@@ -247,8 +260,6 @@ function displayMeteoInfos() {
 
     // Current weather
     displayCurrentWeather();
-    // Hourly forecast
-    // displayHourlyForecast(); not done here
     // n-days forecast
     displayNDaysForecast();
 
@@ -264,7 +275,7 @@ function displayCurrentWeather() {
     document.querySelector(".currentWeather h4").textContent =
         weekday + " " + wc.date.getDate();
 
-    if (new Date().getHours() < 8 || new Date().getHours() > 20) {
+    if (new Date().getHours() <= 7 || new Date().getHours() >= 20) {
         document.querySelector(".card div img").src =
             "assets/img/icons/" + dictIcon["nightIcon"][wc.day[1].weatherCode];
         document.querySelector(".card div img").alt =
@@ -581,7 +592,6 @@ class WeatherCard {
                   })
                   .then((response) => {
                       setTimeout(() => {
-                          console.log(response);
                           this.hourlyForecast = response.forecast;
                           displayHourlyForecast();
                       }, Math.random() * 1000 + 500);

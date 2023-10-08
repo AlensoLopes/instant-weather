@@ -358,6 +358,12 @@ div.pack.hourly-forecast .card .time {
     bottom: 2px;
 }
 
+img.icon-hourly {
+    width: 30px;
+    position: absolute;
+    bottom: 20px;
+}
+
 div.pack.hourly-forecast .card .temperature {
     color: #fff;
 }
@@ -368,7 +374,7 @@ div.pack.hourly-forecast .card #tCurve {
     height: 100%;
     background: linear-gradient(
         0deg,
-        rgb(255 255 255 / 0%) 20%,
+        rgb(255 255 255 / 0%) 35%,
         rgba(240, 84, 84, 1) 100%
     );
 }
@@ -401,6 +407,7 @@ div.message h3 {
 
 div.message p {
     text-align: justify;
+    line-height: 1.5rem;
 }
 
 div.message button {
@@ -436,10 +443,15 @@ img.loading-icon-active {
 
 /* Footer */
 
+hr {
+    margin: 2rem 0 1.5rem 0;
+    border: 1px solid whitesmoke;
+}
+
 footer {
-    margin-top: 1.5rem;
     text-align: center;
     color: whitesmoke;
+    margin-bottom: 0.5rem;
 }
 
 /* Responsive */
