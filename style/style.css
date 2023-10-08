@@ -250,7 +250,6 @@ div.content-active {
 
 .meteo-infos {
     display: flex;
-    justify-content: space-between;
     align-items: flex-start;
     flex-wrap: wrap
 }
@@ -270,6 +269,10 @@ div.card {
 
 div.card h4 {
     text-align: left;
+}
+
+div.currentWeather {
+    margin-right: 1.5rem;
 }
 
 div.currentWeather div.card {
@@ -292,7 +295,7 @@ div.hourly-forecast div.card {
     background-position: center;
     background-size: cover;
     width: 400px;
-    height: 140px;
+    height: 135px;
 }
 
 div.days-forecast {
@@ -457,5 +460,9 @@ footer {
 
     h1#city-name {
         margin: 3rem 0 1rem 0;
+    }
+
+    div.hourly-forecast, div.hourly-forecast div.card {
+        width: 100%;
     }
 }
