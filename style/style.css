@@ -289,6 +289,10 @@ div.currentWeather img {
     width: 100%;
 }
 
+div.hourly-forecast {
+    flex: 1;
+}
+
 div.hourly-forecast div.card {
     background: linear-gradient(
         0deg,
@@ -297,7 +301,7 @@ div.hourly-forecast div.card {
     );
     background-position: center;
     background-size: cover;
-    width: 400px;
+    min-width: 300px;
     height: 135px;
 }
 
@@ -480,5 +484,6 @@ footer {
     div.hourly-forecast,
     div.hourly-forecast div.card {
         width: 100%;
+        min-width: 250px;
     }
 }
