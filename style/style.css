@@ -1,6 +1,6 @@
 /* Fonts importation */
 
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap");
 
 /* General styles */
 
@@ -12,17 +12,39 @@
 }
 
 body {
-    font-family: 'Inter', sans-serif;
+    font-family: "Inter", sans-serif;
     height: 100%;
     min-height: 100vh;
     width: 100%;
-    background-image: url("../assets/img/cities/default.jpg");
+    background-image: url("../assets/img/background.jpg");
     background-position: center;
     background-size: cover;
     background-repeat: no-repeat;
     background-attachment: fixed;
     display: flex;
     padding: 2rem;
+}
+
+a {
+    text-decoration: none;
+    color: whitesmoke;
+}
+
+a:hover {
+    color: black;
+}
+
+span.footerLink {
+    background-repeat: no-repeat;
+    -webkit-transition: all 0.4s ease;
+    transition: all 0.4s ease;
+    background-image: linear-gradient(180deg, transparent 10%, whitesmoke 0);
+    background-size: 130%;
+    background-position: 0 16px;
+}
+
+span.footerLink:hover {
+    background-position: 0;
 }
 
 /* Container styles */
@@ -47,7 +69,7 @@ body {
 }
 
 .search-bar {
-    background-color: #D9D9D9;
+    background-color: #d9d9d9;
     display: flex;
     justify-content: space-between;
     flex-wrap: nowrap;
@@ -65,7 +87,7 @@ body {
     padding: 0 1rem;
     font-size: 1rem;
     font-weight: 500;
-    background-color: #D9D9D9;
+    background-color: #d9d9d9;
     color: black;
     flex: 1;
 }
@@ -74,7 +96,7 @@ body {
     border-radius: 8px;
     border: none;
     outline: none;
-    background-color: #B4B3B3;
+    background-color: #b4b3b3;
     backdrop-filter: blur(10px);
     cursor: pointer;
     height: 40px;
@@ -120,13 +142,14 @@ div.cityGuess:last-child {
 }
 
 div.cityGuess:hover {
-    background-color: #B4B3B3;
+    background-color: #b4b3b3;
     padding-left: 1rem;
 }
 
 /* Search settings */
 
-#search-settings, #infoMessageContainer {
+#search-settings,
+#infoMessageContainer {
     display: flex;
     justify-content: center;
     flex-wrap: nowrap;
@@ -185,7 +208,7 @@ div#search-settings.hidden {
 #search-settings button {
     border-radius: 8px;
     border: none;
-    background-color: #B4B3B3;
+    background-color: #b4b3b3;
     font-size: 1.25rem;
     padding: 0.75rem;
     cursor: pointer;
@@ -196,9 +219,9 @@ div#search-settings.hidden {
     transform: translateY(3px);
 }
 
-.AdditionalInfos{
+.AdditionalInfos {
     font-size: 0.9rem;
-    color: #4F4F4F;
+    color: #4f4f4f;
     font-style: italic;
     padding-top: 0.25fearem;
 }
@@ -228,9 +251,8 @@ div.content-active {
 
 .meteo-infos {
     display: flex;
-    justify-content: space-between;
     align-items: flex-start;
-    flex-wrap: wrap
+    flex-wrap: wrap;
 }
 
 div.pack {
@@ -244,6 +266,14 @@ div.card {
     border-radius: 8px;
     margin-top: 0.5rem;
     padding: 0.5rem;
+}
+
+div.card h4 {
+    text-align: left;
+}
+
+div.currentWeather {
+    margin-right: 1.5rem;
 }
 
 div.currentWeather div.card {
@@ -262,11 +292,11 @@ div.currentWeather img {
 }
 
 div.hourly-forecast div.card {
-    background: #599;
+    background: #d4d0cb;
     background-position: center;
     background-size: cover;
     width: 400px;
-    height: 140px;
+    height: 135px;
 }
 
 div.days-forecast {
@@ -301,7 +331,8 @@ div.daily-card img {
     width: 100px;
 }
 
-div.daily-card table, div.currentWeather table {
+div.daily-card table,
+div.currentWeather table {
     border-spacing: 0.5rem;
     text-align: end;
     white-space: nowrap;
@@ -313,33 +344,39 @@ div.currentWeather table {
 /* Hourly Forecast */
 
 div.pack.hourly-forecast .card {
-	position: relative;
+    position: relative;
     overflow-x: scroll;
     overflow-y: hidden;
     white-space: nowrap;
 }
 
-div.pack.hourly-forecast .card div
-{
-	position: absolute;
+div.pack.hourly-forecast .card div {
+    position: absolute;
 }
 
-div.pack.hourly-forecast .card .time
-{
-	color: #fff;
-	bottom: 2px;
+div.pack.hourly-forecast .card .time {
+    bottom: 2px;
 }
 
-div.pack.hourly-forecast .card .temperature
-{
-	color: #fff;
+img.icon-hourly {
+    width: 30px;
+    position: absolute;
+    bottom: 20px;
+}
+
+div.pack.hourly-forecast .card .temperature {
+    color: #fff;
 }
 
 div.pack.hourly-forecast .card #tCurve {
     left: 0px;
     top: 0px;
     height: 100%;
-    background: linear-gradient(0deg, rgba(34,195,168,0) 0%, rgba(70,162,140,0) 5%, rgba(220,25,25,0.5) 30%, rgba(220,25,25,1) 100%);
+    background: linear-gradient(
+        0deg,
+        rgb(255 255 255 / 0%) 35%,
+        rgba(240, 84, 84, 1) 100%
+    );
 }
 
 /* Message display style */
@@ -370,12 +407,13 @@ div.message h3 {
 
 div.message p {
     text-align: justify;
+    line-height: 1.5rem;
 }
 
 div.message button {
     border-radius: 8px;
     border: none;
-    background-color: #B4B3B3;
+    background-color: #b4b3b3;
     font-size: 1rem;
     padding: 0.5rem;
     cursor: pointer;
@@ -402,10 +440,23 @@ img.loading-icon-active {
     height: 50px;
     margin-top: 4rem;
 }
+
+/* Footer */
+
+hr {
+    margin: 2rem 0 1.5rem 0;
+    border: 1px solid whitesmoke;
+}
+
+footer {
+    text-align: center;
+    color: whitesmoke;
+    margin-bottom: 0.5rem;
+}
+
 /* Responsive */
 
 @media screen and (max-aspect-ratio: 1) {
-
     body {
         padding: 1rem;
     }
@@ -422,5 +473,10 @@ img.loading-icon-active {
 
     h1#city-name {
         margin: 3rem 0 1rem 0;
+    }
+
+    div.hourly-forecast,
+    div.hourly-forecast div.card {
+        width: 100%;
     }
 }

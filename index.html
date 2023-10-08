@@ -9,7 +9,7 @@
             href="assets/img/favicon.ico"
             type="image/x-icon"
         />
-        <title>Instant-Weather</title>
+        <title>Instant-Weather ⛅</title>
         <script type="module" src="script/app.js" defer="true"></script>
         <script
             src="https://kit.fontawesome.com/796ab93bf0.js"
@@ -64,7 +64,9 @@
                     />
                 </div>
                 <button type="submit" id="settingsSaveButton">Save</button>
-                <p class="AdditionalInfos">Click on a card to see additional informations</p>
+                <p class="AdditionalInfos">
+                    Click on a card to see additional informations
+                </p>
             </form>
         </div>
         <div class="hidden" id="infoMessageContainer">
@@ -81,6 +83,7 @@
                         type="text"
                         id="search"
                         placeholder="Search for a city name or a postal code"
+                        autocomplete="off"
                     />
                     <button id="search-btn">
                         <img
@@ -93,15 +96,19 @@
             </div>
 
             <div class="loading-icon">
-               <img src="assets/img/loading-icon.svg" alt="Loading icon" class="loading-icon">
+                <img
+                    src="assets/img/loading-icon.svg"
+                    alt="Loading icon"
+                    class="loading-icon"
+                />
             </div>
-            
+
             <div class="content">
                 <h1 id="city-name">City name</h1>
                 <div class="meteo-infos">
                     <div class="pack currentWeather">
                         <h3>Current weather</h3>
-                        <div class="card">
+                        <div class="card daily-card">
                             <h4>Friday 21</h4>
                             <div>
                                 <img
@@ -140,17 +147,54 @@
                     <div class="pack hourly-forecast">
                         <h3>Hourly forecast</h3>
                         <div class="card">
-                            <div id="tCurve">
-                                
-                            </div>
+                            <div id="tCurve"></div>
                         </div>
                     </div>
                     <div class="pack days-forecast">
                         <h3>n-days forecast</h3>
-                        <div class="card">
-                        </div>
+                        <div class="card"></div>
                     </div>
                 </div>
+                <hr>
+                <footer>
+                    <p>
+                        Made with
+                        <i
+                            class="fa-solid fa-heart"
+                            style="color: whitesmoke"
+                        ></i>
+                        by
+                        <span class="footerLink"
+                            ><a
+                                href="https://github.com/AlensoLopes"
+                                target="_blank"
+                                >Alenso Lopes</a
+                            ></span
+                        >,
+                        <span class="footerLink"
+                            ><a
+                                href="https://github.com/LucBUTGH"
+                                target="_blank"
+                                >Luc Leveque</a
+                            ></span
+                        >,
+                        <span class="footerLink"
+                            ><a
+                                href="https://github.com/moustave"
+                                target="_blank"
+                                >Guillaume Bergerot</a
+                            ></span
+                        >
+                        and
+                        <span class="footerLink"
+                            ><a
+                                href="https://github.com/juliensailly"
+                                target="_blank"
+                                >Julien Sailly</a
+                            ></span
+                        >
+                    </p>
+                </footer>
             </div>
         </div>
     </body>

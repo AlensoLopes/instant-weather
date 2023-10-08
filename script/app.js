@@ -118,100 +118,115 @@ function noMeteo() {
     searchInput.value = "";
 }
 
-function hourlyAPIRequest(city){
-  let apiURL = "https://api.meteo-concept.com/api/forecast/nextHours?token=" +
-    WeatherApiToken +
-    "&insee=" +
-    city.code +
-    "&hourly=true";
+function hourlyAPIRequest(city) {
+    let apiURL =
+        "https://api.meteo-concept.com/api/forecast/nextHours?token=" +
+        WeatherApiToken +
+        "&insee=" +
+        city.code +
+        "&hourly=true";
 
     fetch(apiURL)
-      .then(response => response = response.json())
-      .then(data =>{
-        displayHourlyInfos(data);
-      })
+        .then((response) => (response = response.json()))
+        .then((data) => {
+            displayHourlyInfos(data);
+        });
 }
 
-/* 
+/*
  * Display hourly infos
  */
-function displayHourlyForecast(){
-  const spacing = 70;
-  
-  const forecastCard = document.querySelector(".hourly-forecast .card");
-  const curve = document.querySelector(".hourly-forecast .card #tCurve");
-  const hoursNumber = wc.hourlyForecast.length;
+function displayHourlyForecast() {
+    const spacing = 70;
 
-  // Remove previous forecast
-  let hoursForecast = document.querySelectorAll(".to-refresh");
-  for (let i = 0; i < hoursForecast.length; i++) {
-    hoursForecast[i].remove();
-  }
+    const forecastCard = document.querySelector(".hourly-forecast .card");
+    const curve = document.querySelector(".hourly-forecast .card #tCurve");
+    const hoursNumber = wc.hourlyForecast.length;
 
-  let timeList = [];
-  let tempList = [];
-  let probaRainList = [];
-  let weatherList = [];
-  //fill the lists
-  wc.hourlyForecast.forEach(element => {
-    timeList.push(element.datetime);
-    tempList.push(element.temp2m);
-    probaRainList.push(element.probarain);
-    weatherList.push(element.weather); 
-  });
- 
-  console.log(tempList);
-  //TIMESTAMPS
-  for (let i = 0; i < hoursNumber; i++)
-  {
-    //time
-    let hourTime = document.createElement("div");
-    hourTime.textContent = timeList[i].split('T')[1].split('+')[0].substring(0, 5);
-    hourTime.classList.add("time");
-    hourTime.classList.add("to-refresh");
-    hourTime.style.left = `${10+spacing*i}px`;
-    forecastCard.appendChild(hourTime);
-  }
+    // Remove previous forecast
+    let hoursForecast = document.querySelectorAll(".to-refresh");
+    for (let i = 0; i < hoursForecast.length; i++) {
+        hoursForecast[i].remove();
+    }
 
-  //CURVE + TEMPERATURE LABELS
-  //set curve div width
-  curve.style.width = `${spacing*hoursNumber}px`;
-  //set curve clip path & temperature labels
-  const maxTemp = Math.max.apply(Math,tempList);
-  const minTemp = Math.min.apply(Math,tempList);
-  //Y axis goes down!
-  //minY : the Y of the max temperature, opposite for maxY
-  const minY = 10;
-  const maxY = 60;
-  let getY = (valT) => {
-    const ratio = 1-(valT-minTemp)/(maxTemp-minTemp);
-    return ratio*(maxY-minY)+minY;
-  };
+    let timeList = [];
+    let tempList = [];
+    let probaRainList = [];
+    let weatherList = [];
+    //fill the lists
+    wc.hourlyForecast.forEach((element) => {
+        timeList.push(element.datetime);
+        tempList.push(element.temp2m);
+        probaRainList.push(element.probarain);
+        weatherList.push(element.weather);
+    });
 
-  let path = `path("`;
-  path += `M0,${getY(tempList[0])}`;
-  for (let i = 0; i < hoursNumber; i++)
-  {
-    let x = spacing*i;
-    let y = getY(tempList[i]);
-    //CURVE
-    path+=` L${25+x},${y}`;
-    //TEMPERATURE LABELS
-    let temp = document.createElement("div");
-    temp.textContent = tempList[i];
-    temp.classList.add("temp");
-    temp.classList.add("to-refresh");
-    temp.style.left = `${20+x}px`;
-    temp.style.top = `${y-10}px`;
-    forecastCard.appendChild(temp);
-  }
-  //close the path
-  path+= ` L${spacing*hoursNumber*2},${getY(tempList[hoursNumber-1])}`;
-  path += `L${spacing*hoursNumber*2},${maxY*2} L0,${maxY*2}Z")`;
-  console.log(path);
-  curve.style.clipPath = path;
+    //TIMESTAMPS
+    for (let i = 0; i < hoursNumber; i++) {
+        //time
+        let hourTime = document.createElement("div");
+        hourTime.textContent = timeList[i]
+            .split("T")[1]
+            .split("+")[0]
+            .substring(0, 5);
+        hourTime.classList.add("time");
+        hourTime.classList.add("to-refresh");
+        hourTime.style.left = `${10 + spacing * i}px`;
+        forecastCard.appendChild(hourTime);
 
-  /*response.forecast.forEach(element =>{
+        // meteo icon
+        let icon = document.createElement("img"), hour = new Date(timeList[i]).getHours();
+        icon.src =
+            "assets/img/icons/" +
+            dictIcon[
+                hour <= 7 || hour >= 20
+                    ? "nightIcon"
+                    : "dayIcon"
+            ][weatherList[i]];
+        icon.alt = dictIcon["alt"][weatherList[i]];
+        icon.classList.add("icon-hourly");
+        icon.classList.add("to-refresh");
+        icon.style.left = `${10 + spacing * i + 6}px`;
+        forecastCard.appendChild(icon);
+    }
+
+    //CURVE + TEMPERATURE LABELS
+    //set curve div width
+    curve.style.width = `${spacing * hoursNumber}px`;
+    //set curve clip path & temperature labels
+    const maxTemp = Math.max.apply(Math, tempList);
+    const minTemp = Math.min.apply(Math, tempList);
+    //Y axis goes down!
+    //minY : the Y of the max temperature, opposite for maxY
+    const minY = 10;
+    const maxY = 60;
+    let getY = (valT) => {
+        const ratio = 1 - (valT - minTemp) / (maxTemp - minTemp);
+        return ratio * (maxY - minY) + minY;
+    };
+
+    let path = `path("`;
+    path += `M0,${getY(tempList[0])}`;
+    for (let i = 0; i < hoursNumber; i++) {
+        let x = spacing * i;
+        let y = getY(tempList[i]);
+        //CURVE
+        path += ` L${25 + x},${y}`;
+        //TEMPERATURE LABELS
+        let temp = document.createElement("div");
+        temp.textContent = tempList[i] + "°";
+        temp.classList.add("temp");
+        temp.classList.add("to-refresh");
+        temp.style.left = `${20 + x}px`;
+        temp.style.top = `${y - 10}px`;
+        forecastCard.appendChild(temp);
+    }
+    //close the path
+    path += ` L${spacing * hoursNumber * 2},${getY(tempList[hoursNumber - 1])}`;
+    path += `L${spacing * hoursNumber * 2},${maxY * 2} L0,${maxY * 2}Z")`;
+    curve.style.clipPath = path;
+
+    /*response.forecast.forEach(element =>{
     console.log(element.temp2m);
     console.log(element.probarain);
     console.log(element.weather); 
@@ -222,7 +237,6 @@ function displayHourlyForecast(){
 	hourTime.style.
 	forecastCard.appendChild(hourTime);
   });*/
-  
 }
 /*
  * Display a message in the HTML page
@@ -246,8 +260,6 @@ function displayMeteoInfos() {
 
     // Current weather
     displayCurrentWeather();
-    // Hourly forecast
-    // displayHourlyForecast(); not done here
     // n-days forecast
     displayNDaysForecast();
 
@@ -263,14 +275,16 @@ function displayCurrentWeather() {
     document.querySelector(".currentWeather h4").textContent =
         weekday + " " + wc.date.getDate();
 
-    if (new Date().getHours() < 8 || new Date().getHours() > 20) {
+    if (new Date().getHours() <= 7 || new Date().getHours() >= 20) {
         document.querySelector(".card div img").src =
             "assets/img/icons/" + dictIcon["nightIcon"][wc.day[1].weatherCode];
-        document.querySelector(".card div img").alt = dictIcon["alt"][wc.day[1].weatherCode];
+        document.querySelector(".card div img").alt =
+            dictIcon["alt"][wc.day[1].weatherCode];
     } else {
         document.querySelector(".card div img").src =
             "assets/img/icons/" + dictIcon["dayIcon"][wc.day[1].weatherCode];
-        document.querySelector(".card div img").alt = dictIcon["alt"][wc.day[1].weatherCode];
+        document.querySelector(".card div img").alt =
+            dictIcon["alt"][wc.day[1].weatherCode];
     }
 
     document.querySelector(".currentWeather .tempMax").textContent =
@@ -359,7 +373,7 @@ function displayNDaysForecast() {
     }
 
     let i = 2;
-    while (i < wc.day.length && i-1 <= settings.forecastDuration) {
+    while (i < wc.day.length && i - 1 <= settings.forecastDuration) {
         let day = wc.day[i],
             date = new Date(day.date);
         let weekday = returnWeekDay(date.getDay()).substring(0, 3) + ".";
@@ -372,7 +386,8 @@ function displayNDaysForecast() {
         dayTitle.textContent = weekday + " " + date.getDate();
 
         let illustration = document.createElement("img");
-        illustration.src = "assets/img/icons/" + dictIcon["dayIcon"][wc.day[i].weatherCode];
+        illustration.src =
+            "assets/img/icons/" + dictIcon["dayIcon"][wc.day[i].weatherCode];
         illustration.alt = dictIcon["alt"][wc.day[i].weatherCode];
 
         let table = document.createElement("table");
@@ -463,9 +478,9 @@ function onPageLoad() {
     // Adding event listeners
     searchInput.addEventListener("input", () => searchInputChanged());
     searchInput.addEventListener("focus", () => searchInputChanged());
-    document.getElementById("settingsSaveButton").addEventListener("click", () =>
-        updateSearchSettings()
-    );
+    document
+        .getElementById("settingsSaveButton")
+        .addEventListener("click", () => updateSearchSettings());
     window.addEventListener("click", function (mouseEvent) {
         if (
             !document.getElementById("cityGuesses").contains(mouseEvent.target)
@@ -560,32 +575,31 @@ class WeatherCard {
     }
 
     meteoAPIRequestHourly(codeInsee) {
-      let apiURL =
-          "https://api.meteo-concept.com/api/forecast/nextHours?token=" +
-          WeatherApiToken +
-          "&insee=" +
-          codeInsee +
-          "&hourly=true";
+        let apiURL =
+            "https://api.meteo-concept.com/api/forecast/nextHours?token=" +
+            WeatherApiToken +
+            "&insee=" +
+            codeInsee +
+            "&hourly=true";
 
-      codeInsee >= 97000 && codeInsee < 99000
-          ? noMeteo()
-          : fetch(apiURL)
-                .then((response) => {
-                    if (!response.ok) {
-                        throw new Error();
-                    } else return response.json();
-                })
-                .then((response) => {
-                    setTimeout(() => {
-                        console.log(response);
-                        this.hourlyForecast = response.forecast;
-                        displayHourlyForecast();
-                    }, Math.random() * 1000 + 500);
-                })
-                .catch(() => {
-                    noMeteo();
-                });
-  }
+        codeInsee >= 97000 && codeInsee < 99000
+            ? noMeteo()
+            : fetch(apiURL)
+                  .then((response) => {
+                      if (!response.ok) {
+                          throw new Error();
+                      } else return response.json();
+                  })
+                  .then((response) => {
+                      setTimeout(() => {
+                          this.hourlyForecast = response.forecast;
+                          displayHourlyForecast();
+                      }, Math.random() * 1000 + 500);
+                  })
+                  .catch(() => {
+                      noMeteo();
+                  });
+    }
     assignMeteoInfos(response) {
         this.cityName = response.city.name;
         this.latitude = response.city.latitude;
