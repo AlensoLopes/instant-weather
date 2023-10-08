@@ -25,6 +25,28 @@ body {
     padding: 2rem;
 }
 
+a {
+    text-decoration: none;
+    color: whitesmoke;
+}
+
+a:hover {
+    color: black;
+}
+
+span.footerLink {
+    background-repeat: no-repeat;
+    -webkit-transition: all .4s ease;
+    transition: all .4s ease;
+    background-image: linear-gradient(180deg, transparent 10%, whitesmoke 0);
+    background-size: 130%;
+    background-position: 0 16px;
+}
+
+span.footerLink:hover {
+    background-position: 0;
+}
+
 /* Container styles */
 
 #container {
@@ -246,6 +268,10 @@ div.card {
     padding: 0.5rem;
 }
 
+div.card h4 {
+    text-align: left;
+}
+
 div.currentWeather div.card {
     cursor: pointer;
 }
@@ -402,6 +428,15 @@ img.loading-icon-active {
     height: 50px;
     margin-top: 4rem;
 }
+
+/* Footer */
+
+footer {
+    margin-top: 1.5rem;
+    text-align: center;
+    color: whitesmoke;
+}
+
 /* Responsive */
 
 @media screen and (max-aspect-ratio: 1) {
