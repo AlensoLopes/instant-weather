@@ -4,13 +4,13 @@ Welcome to Instant-Weather, a web app that provides up-to-date meteorological in
 You can access the Instant-Weather web application by following this link: [Instant-Weather Web App](https://alensolopes.github.io/instant-weather).
 
 ## Table of Contents
-- [Introduction](#instant-weather)
-- [Features](#features)
-- [Team](#team)
-- [Usage](#usage)
-- [Customization](#customization)
-- [Contributing](#contributing)
-- [License](#license)
+- [Introduction](#instant-weather-%EF%B8%8F)
+- [Features](#features-)
+- [Team](#team-)
+- [Usage](#usage-)
+- [Customization](#customization-%EF%B8%8F)
+- [Contributing](#contributing-)
+- [License](#license-)
 
 ## Features 🌟
 
