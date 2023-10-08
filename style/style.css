@@ -276,6 +276,7 @@ div.currentWeather {
 
 div.currentWeather div.card {
     cursor: pointer;
+    border-radius: 8px;
 }
 
 div.currentWeather div.card div {
