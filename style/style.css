@@ -368,8 +368,7 @@ div.pack.hourly-forecast .card #tCurve {
     height: 100%;
     background: linear-gradient(
         0deg,
-        rgba(84, 216, 255, 1) 15%,
-        rgba(240, 84, 84, 1) 75%,
+        rgb(255 255 255 / 0%) 20%,
         rgba(240, 84, 84, 1) 100%
     );
 }
