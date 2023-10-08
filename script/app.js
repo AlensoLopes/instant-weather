@@ -166,9 +166,10 @@ function noMeteo() {
     "We're sorry but the meteo is not available for " + "this city."
   );
   document.querySelector(".content").classList.remove("content-active");
-  document
-    .querySelector("img.loading-icon-active")
-    .classList.replace("loading-icon-active", "loading-icon");
+  let loadingIcon = document.querySelector("img.loading-icon-active");
+  if (loadingIcon != null) {
+    loadingIcon.classList.replace("loading-icon-active", "loading-icon");
+  }
   searchInput.value = "";
 }
 
